@@ -20,6 +20,8 @@ f.write(f"Running on VGG Architecture and {num_epochs} epoch(s)\n\n")
 
 # Check for subset accuracy
 
+correct_examples = {}
+
 layer_configs = {
     1: [64, "Pool"],
     2: [64, 64, "Pool"],
@@ -98,6 +100,8 @@ train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle
 test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
 
+device = torch.device("cuda")
+
 def train_model(device, num_epochs, iteration):
     model = VGG(iteration).to(device)
     criterion = nn.CrossEntropyLoss()
@@ -126,10 +130,12 @@ def train_model(device, num_epochs, iteration):
     end_time = time.time()
     return model, end_time - start_time
 
-def test_model(model, device):
+def test_model(model, device, iteration):
     model.eval()
     all_preds = []
     all_labels = []
+
+    correct_example = set()
 
     with torch.no_grad():
         for inputs, labels in test_loader:
@@ -139,6 +145,12 @@ def test_model(model, device):
 
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
+
+    for i in range(len(all_preds)):
+        if all_preds[i] == all_labels[i]:
+            correct_examples.add(i)
+
+    correct_examples[iteration] = correct_example
 
     accuracy = accuracy_score(all_labels, all_preds)
     precision = precision_score(all_labels, all_preds, average='weighted')
@@ -180,9 +192,11 @@ if torch.cuda.is_available():
 
         print(f"\nIteration {iteration}: Testing on Test Set")
         f.write(f"Testing on Iteration {iteration}\n")
-        test_model(model, gpu_device)
+        test_model(model, gpu_device, iteration)
 else:
     print("GPU not available.")
 
 f.write(f"===============================================================================")
 f.write(f"\n")
+
+print(correct_examples)
