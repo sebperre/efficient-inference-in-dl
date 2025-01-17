@@ -1,42 +1,52 @@
+import kagglehub
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
+from torchvision import datasets, transforms, models
+from torch.utils.data import Subset
+import numpy as np
 import time
 import datetime
 
-f = open("logs/CIFAR10RunTime.txt", "a")
+path = kagglehub.dataset_download("ifigotin/imagenetmini-1000")
+
+print("Path to dataset files:", path)
+
+f = open("../logs/ImageNetTime.txt", "a")
 
 f.write(f"Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
 num_epochs = 1
+subset_size = 1000
 
-class SimpleCNN(nn.Module):
+class SimpleResNet(nn.Module):
     def __init__(self):
-        super(SimpleCNN, self).__init__()
-        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
-        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.fc1 = nn.Linear(64 * 8 * 8, 512)
-        self.fc2 = nn.Linear(512, 10)
+        super(SimpleResNet, self).__init__()
+        self.model = models.resnet18(pretrained=False)
+        self.model.fc = nn.Linear(self.model.fc.in_features, 1000)
 
     def forward(self, x):
-        x = self.pool(torch.relu(self.conv1(x)))
-        x = self.pool(torch.relu(self.conv2(x)))
-        x = x.view(-1, 64 * 8 * 8)
-        x = torch.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
+        return self.model(x)
 
 transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
     transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
 ])
 
-train_dataset = datasets.CIFAR10(root="./data", train=True, download=True, transform=transform)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+data_dir = "~/.cache/kagglehub/datasets/ifigotin/imagenetmini-1000/versions/1/imagenet-mini"
+train_dataset = datasets.ImageFolder(root=f"{data_dir}/train", transform=transform)
+
+def get_subset(dataset, subset_size=1000, seed=42):
+    np.random.seed(seed)
+    indices = np.random.choice(len(dataset), subset_size, replace=False)
+    return Subset(dataset, indices)
+
+train_subset = get_subset(train_dataset, subset_size=subset_size)
+train_loader = torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
 
 def train_model(device, num_epochs):
-    model = SimpleCNN().to(device)
+    model = SimpleResNet().to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -64,7 +74,7 @@ def train_model(device, num_epochs):
 # Run on CPU
 print("Training on CPU...")
 cpu_device = torch.device("cpu")
-f.write(f"Running on {num_epochs} epoch(s)\n")
+f.write(f"Running on {num_epochs} epoch(s) and {subset_size} images\n")
 cpu_time = train_model(cpu_device, num_epochs)
 print(f"CPU Training Time: {cpu_time:.2f} seconds")
 f.write(f"CPU Training Time: {cpu_time:.2f} seconds\n")
