@@ -4,11 +4,14 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 import time
 import datetime
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
+import numpy as np
 
 f = open("../logs/CIFAR10RunTime.txt", "a")
 
-f.write(f"CPU vs. GPU Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-num_epochs = 1
+f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
+num_epochs = 40
+f.write(f"Running on {num_epochs} epoch(s)\n")
 
 class SimpleCNN(nn.Module):
     def __init__(self):
@@ -35,6 +38,9 @@ transform = transforms.Compose([
 train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
 
+test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
+
 def train_model(device, num_epochs):
     model = SimpleCNN().to(device)
     criterion = nn.CrossEntropyLoss()
@@ -59,23 +65,50 @@ def train_model(device, num_epochs):
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
 
     end_time = time.time()
-    return end_time - start_time
+    return model, end_time - start_time
 
-# Run on CPU
-print("Training on CPU...")
-cpu_device = torch.device("cpu")
-f.write(f"Running on {num_epochs} epoch(s)\n")
-cpu_time = train_model(cpu_device, num_epochs)
-print(f"CPU Training Time: {cpu_time:.2f} seconds")
-f.write(f"CPU Training Time: {cpu_time:.2f} seconds\n")
+def test_model(model, device):
+    model.eval()
+    all_preds = []
+    all_labels = []
 
-# Run on GPU
+    with torch.no_grad():
+        for inputs, labels in test_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
+            outputs = model(inputs)
+            _, preds = torch.max(outputs, 1)
+
+            all_preds.extend(preds.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+
+    accuracy = accuracy_score(all_labels, all_preds)
+    precision = precision_score(all_labels, all_preds, average='weighted')
+    recall = recall_score(all_labels, all_preds, average='weighted')
+    f1 = f1_score(all_labels, all_preds, average='weighted')
+    class_report = classification_report(all_labels, all_preds)
+
+    print(f"Accuracy: {accuracy:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall: {recall:.4f}")
+    print(f"F1 Score: {f1:.4f}")
+    print("\nClassification Report:\n", class_report)
+
+    f.write(f"Accuracy: {accuracy:.4f}\n")
+    f.write(f"Precision: {precision:.4f}\n")
+    f.write(f"Recall: {recall:.4f}\n")
+    f.write(f"F1 Score: {f1:.4f}\n")
+    f.write("\nClassification Report:\n")
+    f.write(class_report + "\n")
+
 if torch.cuda.is_available():
     print("Training on GPU...")
     gpu_device = torch.device("cuda")
-    gpu_time = train_model(gpu_device, num_epochs)
+    model, gpu_time = train_model(gpu_device, num_epochs)
     print(f"GPU Training Time: {gpu_time:.2f} seconds")
     f.write(f"GPU Training Time: {gpu_time:.2f} seconds\n")
+
+    print("\nTesting on Test Set")
+    test_model(model, gpu_device)
 else:
     print("GPU not available.")
 

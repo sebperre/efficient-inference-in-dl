@@ -7,14 +7,15 @@ from torch.utils.data import Subset
 import numpy as np
 import time
 import datetime
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 
 path = kagglehub.dataset_download("ifigotin/imagenetmini-1000")
 
-print("CPU vs. GPU Testing: Path to dataset files:", path)
+print("Path to dataset files:", path)
 
 f = open("../logs/ImageNetTime.txt", "a")
 
-f.write(f"Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
+f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
 num_epochs = 1
 subset_size = 1000
 
@@ -44,6 +45,12 @@ def get_subset(dataset, subset_size=1000, seed=42):
 
 train_subset = get_subset(train_dataset, subset_size=subset_size)
 train_loader = torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
+
+train_subset = get_subset(train_dataset, subset_size=subset_size)
+test_dataset = datasets.ImageFolder(root=f"{data_dir}/val", transform=transform)
+
+train_loader = torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
 
 def train_model(device, num_epochs):
     model = SimpleResNet().to(device)
