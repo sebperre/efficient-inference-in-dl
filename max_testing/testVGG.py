@@ -6,12 +6,13 @@ import time
 import datetime
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import numpy as np
+import math
 
 f = open("../logs/CIFAR10RunTime.txt", "a")
 
 f.write(f"===============================================================================")
 f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-num_epochs = 20
+num_epochs = 100
 f.write(f"Running on VGG Architecture and {num_epochs} epoch(s)\n")
 
 # Followed Geeksforgeeks description: https://www.geeksforgeeks.org/vgg-net-architecture-explained/
@@ -69,18 +70,26 @@ class VGG(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Linear(512, 4096),
+            nn.Dropout(),
+            nn.Linear(512, 512),
             nn.ReLU(inplace=True),
             nn.Dropout(),
-            nn.Linear(4096, 4096),
+            nn.Linear(512, 512),
             nn.ReLU(inplace=True),
             nn.Dropout(),
-            nn.Linear(4096, num_classes),
+            nn.Linear(512, num_classes),
         )
+
+        # Initial Weights Matter a lot, took this from https://github.com/chengyangfu/pytorch-vgg-cifar10
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.bias.data.zero_()
 
     def forward(self, x):
         x = self.features(x)
-        x = torch.flatten(x, 1)
+        x = x.view(x.size(0), -1)
         x = self.classifier(x)
         return x
 
@@ -98,7 +107,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=F
 def train_model(device, num_epochs):
     model = VGG().to(device)
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=0.3)
+    optimizer = optim.SGD(model.parameters(), lr=0.05, momentum=0.1, weight_decay=0.0005)
 
     start_time = time.time()
 
