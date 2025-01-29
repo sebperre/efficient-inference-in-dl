@@ -14,6 +14,8 @@ Paper: [VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION](http
 
 Article: [Understanding the difficulty of training deep feedforward neural networks](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf)
 
+Article: [Kaiming Initialization in Deep Learning](https://www.geeksforgeeks.org/kaiming-initialization-in-deep-learning/)
+
 ## License
 
 This project is licensed under the [MIT License](./LICENSE). See the LICENSE file for details.
