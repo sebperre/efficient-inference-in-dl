@@ -10,6 +10,10 @@ Article: [CIFAR10: 94% Of Accuracy By 50 Epochs With End-to-End Training](https:
 
 Paper: [VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION](https://arxiv.org/pdf/1409.1556)
 
+## Possible Papers To Look At
+
+Article: [Understanding the difficulty of training deep feedforward neural networks](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf)
+
 ## License
 
 This project is licensed under the [MIT License](./LICENSE). See the LICENSE file for details.
