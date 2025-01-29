@@ -1,6 +1,6 @@
 # Efficient Inference in Deep Learning
 
-This is an honours project for CSC 499.
+Honours project for CSC 499.
 
 ## Resources Used
 

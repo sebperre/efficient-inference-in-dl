@@ -83,8 +83,16 @@ class VGG(nn.Module):
         # Initial Weights Matter a lot, took this from https://github.com/chengyangfu/pytorch-vgg-cifar10
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n))
+                # VGG Paper talks about this except with mean 0 and variance 10^-2
+                # VGG Paper of mean 0 and variance 10^-2 gives vanishing gradients
+
+                # This is Kaiming initialization
+                # n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                # m.weight.data.normal_(0, math.sqrt(2. / n))
+                # m.bias.data.zero_()
+
+                # This variance works though
+                m.weight.data.normal_(0, 0.025)
                 m.bias.data.zero_()
 
     def forward(self, x):
