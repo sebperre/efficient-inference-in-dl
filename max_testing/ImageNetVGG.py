@@ -6,18 +6,26 @@ import time
 import datetime
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import numpy as np
+from torch.utils.data import Subset
+import math
+import kagglehub
 
-f = open("../logs/CIFAR10RunTime.txt", "a")
+path = kagglehub.dataset_download("ifigotin/imagenetmini-1000")
+
+print("Path to dataset files:", path)
+
+f = open("../logs/ImageNetTime.txt", "a")
 
 f.write(f"===============================================================================")
 f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-num_epochs = 100
-f.write(f"Running on VGG Architecture and {num_epochs} epoch(s)\n")
+num_epochs = 20
+subset_size = 64
+f.write(f"Running on VGG Architecture, {subset_size} images and {num_epochs} epoch(s)\n")
 
 # Followed Geeksforgeeks description: https://www.geeksforgeeks.org/vgg-net-architecture-explained/
 
 class VGG(nn.Module):
-    def __init__(self, num_classes = 10):
+    def __init__(self, num_classes = 1000):
         super(VGG, self).__init__()
         self.features = nn.Sequential(
             # Block 1
@@ -69,7 +77,7 @@ class VGG(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Linear(512, 4096),
+            nn.Linear(25088, 4096),
             nn.ReLU(inplace=True),
             nn.Dropout(),
             nn.Linear(4096, 4096),
@@ -78,27 +86,54 @@ class VGG(nn.Module):
             nn.Linear(4096, num_classes),
         )
 
+        # Initial Weights Matter a lot, took this from https://github.com/chengyangfu/pytorch-vgg-cifar10
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                # VGG Paper talks about this except with mean 0 and variance 10^-2
+                # VGG Paper of mean 0 and variance 10^-2 gives vanishing gradients
+
+                # This is Kaiming initialization
+                # n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                # m.weight.data.normal_(0, math.sqrt(2. / n))
+                # m.bias.data.zero_()
+
+                # This variance works ImageNet, we seem to get exploding gradients with Kaiming initialization
+                # Follow paper with variance 0.01
+                m.weight.data.normal_(0, 0.01)
+                m.bias.data.zero_()
+
     def forward(self, x):
         x = self.features(x)
-        x = torch.flatten(x, 1)
+        x = x.view(x.size(0), -1)
         x = self.classifier(x)
         return x
 
 transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
     transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
-train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+data_dir = "~/.cache/kagglehub/datasets/ifigotin/imagenetmini-1000/versions/1/imagenet-mini"
+train_dataset = datasets.ImageFolder(root=f"{data_dir}/train", transform=transform)
 
-test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
+def get_subset(dataset, subset_size=1000, seed=42):
+    np.random.seed(seed)
+    indices = np.random.choice(len(dataset), subset_size, replace=False)
+    return Subset(dataset, indices)
+
+train_subset = get_subset(train_dataset, subset_size=subset_size)
+train_subset = get_subset(train_dataset, subset_size=subset_size)
+test_dataset = datasets.ImageFolder(root=f"{data_dir}/val", transform=transform)
+
+train_loader = torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
 
 def train_model(device, num_epochs):
     model = VGG().to(device)
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=0.05, momentum=0.1, weight_decay=0.0005)
+    optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay=0.0005)
 
     start_time = time.time()
 

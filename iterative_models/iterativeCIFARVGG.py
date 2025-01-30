@@ -87,13 +87,13 @@ class VGG(nn.Module):
                 # VGG Paper of mean 0 and variance 10^-2 gives vanishing gradients
 
                 # This is Kaiming initialization
-                # n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                # m.weight.data.normal_(0, math.sqrt(2. / n))
-                # m.bias.data.zero_()
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.bias.data.zero_()
 
                 # This variance works though
-                m.weight.data.normal_(0, 0.025)
-                m.bias.data.zero_()
+                # m.weight.data.normal_(0, 0.025)
+                # m.bias.data.zero_()
 
     def forward(self, x):
         x = self.features(x)
