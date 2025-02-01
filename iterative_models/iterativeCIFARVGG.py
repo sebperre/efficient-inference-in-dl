@@ -10,7 +10,7 @@ import math
 
 f = open("../logs/CIFAR10Iterative.txt", "a")
 
-iterations = 3
+iterations = 5
 num_epochs = 5
 
 f.write(f"===============================================================================\n")
@@ -22,13 +22,18 @@ f.write(f"Running on VGG Architecture and {num_epochs} epoch(s)\n\n")
 layer_configs = {
     1: [64, "Pool"],
     2: [64, 64, "Pool"],
-    3: [64, 64, "Pool", 128, 128, "Pool"]
+    3: [64, 64, 64, "Pool"],
+    4: [64, 64, 64, 64, "Pool"],
+    5: [64, 64, 64, 64, 64, "Pool"]
 }
 
 depth_connections = {
     1: 16384,
     2: 16384,
-    3: 8192
+    3: 16384,
+    4: 16384,
+    5: 16384
+    # 3: 8192
 }
 
 # Followed the format of https://github.com/chengyangfu/pytorch-vgg-cifar10
