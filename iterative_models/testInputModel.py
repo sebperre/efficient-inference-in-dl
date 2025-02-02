@@ -135,6 +135,7 @@ def test_model(model, device, iteration):
     all_preds = []
     all_labels = []
 
+    # correct examples
     correct_example = set()
 
     with torch.no_grad():
