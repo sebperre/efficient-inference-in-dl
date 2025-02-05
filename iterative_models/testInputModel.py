@@ -149,7 +149,7 @@ def test_model(model, device, iteration):
 
     for i in range(len(all_preds)):
         if all_preds[i] == all_labels[i]:
-            correct_examples.add(i)
+            correct_example.add(i)
 
     correct_examples[iteration] = correct_example
 
