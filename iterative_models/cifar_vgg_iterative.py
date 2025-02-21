@@ -8,11 +8,13 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import numpy as np
 import math
 
-f = open("../logs/CIFAR10Iterative.txt", "a")
+######################################
+# USER INPUT
+num_epochs = 30
+######################################
 
-num_epochs = 5
+f = open(f"../logs/CIFAR10Iterative/{datetime.datetime.now().strftime("%m-%d %H:%M")}.txt", "w")
 
-f.write(f"===============================================================================\n")
 f.write(f"Iterative Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
 f.write(f"Running on VGG Architecture and {num_epochs} epoch(s)\n\n")
 
@@ -37,6 +39,9 @@ depth_connections = {
 }
 
 iterations = len(depth_connections)
+
+predictions = []
+label_tester = None
 
 # Followed the format of https://github.com/chengyangfu/pytorch-vgg-cifar10
 def make_layers(layer_config):
@@ -127,6 +132,7 @@ def train_model(device, num_epochs, iteration):
     return model, end_time - start_time
 
 def test_model(model, device):
+    global label_tester
     model.eval()
     all_preds = []
     all_labels = []
@@ -139,6 +145,11 @@ def test_model(model, device):
 
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
+    
+    if label_tester is None:
+        label_tester = np.array(all_labels)
+
+    predictions.append(np.array(all_preds) == label_tester)
 
     accuracy = accuracy_score(all_labels, all_preds)
     precision = precision_score(all_labels, all_preds, average='weighted')
@@ -166,6 +177,24 @@ def format_time(time):
 
     return f"{hours}h {minutes}m {seconds}s"
 
+def compare_overlap():
+    global label_tester
+    num_models = len(predictions)
+
+    correct_counts = {}
+
+    for i in range(num_models):
+        for j in range(i + 1, num_models):
+            percentage = None
+            if np.sum(predictions[j]) > 0:
+                percentage = (np.sum(predictions[j] & (predictions[i] == predictions[j])) / np.sum(predictions[j])) * 100
+            else:
+                percentage = 0
+
+            correct_counts[(i, j)] = percentage
+    f.write("Overlap:\n")
+    f.write(f"{correct_counts}\n")
+
 if torch.cuda.is_available():
     print("Training on GPU...")
     gpu_device = torch.device("cuda")
@@ -181,6 +210,9 @@ if torch.cuda.is_available():
         print(f"\nIteration {iteration}: Testing on Test Set")
         f.write(f"Testing on Iteration {iteration}\n")
         test_model(model, gpu_device)
+    
+    compare_overlap()
+
 else:
     print("GPU not available.")
 

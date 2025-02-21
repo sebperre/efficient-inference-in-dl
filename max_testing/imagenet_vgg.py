@@ -19,7 +19,7 @@ f = open("../logs/ImageNetTime.txt", "a")
 f.write(f"===============================================================================")
 f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
 num_epochs = 20
-subset_size = 64
+subset_size = 1000
 f.write(f"Running on VGG Architecture, {subset_size} images and {num_epochs} epoch(s)\n")
 
 # Followed Geeksforgeeks description: https://www.geeksforgeeks.org/vgg-net-architecture-explained/
@@ -140,12 +140,15 @@ def get_subset(dataset, subset_size=1000, seed=42):
     indices = np.random.choice(len(dataset), subset_size, replace=False)
     return Subset(dataset, indices)
 
-train_subset = get_subset(train_dataset, subset_size=subset_size)
-train_subset = get_subset(train_dataset, subset_size=subset_size)
+# train_subset = get_subset(train_dataset, subset_size=subset_size)
 test_dataset = datasets.ImageFolder(root=f"{data_dir}/val", transform=transform)
+# test_subset = get_subset(test_dataset, subset_size=subset_size)
 
-train_loader = torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
+#train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=16, shuffle=True)
+#test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=16, shuffle=False)
+
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=16, shuffle=True)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=16, shuffle=False)
 
 def train_model(device, num_epochs):
     model = VGG().to(device)
@@ -212,7 +215,7 @@ def format_time(time):
     seconds = int(time % 60)
 
     return f"{hours}h {minutes}m {seconds}s"
-
+torch.cuda.empty_cache()
 if torch.cuda.is_available():
     print("Training on GPU...")
     gpu_device = torch.device("cuda")
