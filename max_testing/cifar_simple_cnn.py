@@ -6,7 +6,7 @@ import sys
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 
-from file_utils import write_file, print_write, get_args, timer
+from file_utils import write_file, get_args, timer
 
 class SimpleCNN(nn.Module):
     def __init__(self):

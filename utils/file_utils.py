@@ -23,7 +23,7 @@ def timer(func):
         end_time = time.time()
         elapsed_time = end_time - start_time
 
-        f.write(f"Took {format_time(elapsed_time)} time to {description}.")
+        f.write(f"Took {format_time(elapsed_time)} to {description}.\n")
         
         if f is None or description is None:
             raise Exception("No file provided")

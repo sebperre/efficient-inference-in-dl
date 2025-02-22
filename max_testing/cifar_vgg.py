@@ -2,18 +2,12 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-import time
-import datetime
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
-import numpy as np
 import math
+import sys
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 
-f = open("../logs/CIFAR10RunTime.txt", "a")
-
-f.write(f"===============================================================================")
-f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-num_epochs = 50
-f.write(f"Running on VGG Architecture and {num_epochs} epoch(s)\n")
+from file_utils import write_file, get_args, timer
 
 # Followed Geeksforgeeks description: https://www.geeksforgeeks.org/vgg-net-architecture-explained/
 
@@ -79,7 +73,7 @@ class VGG(nn.Module):
             nn.Linear(4096, num_classes),
         )
 
-        # Initial Weights Matter a lot, took this from https://github.com/chengyangfu/pytorch-vgg-cifar10
+        # Initial Weights matter a lot, took this from https://github.com/chengyangfu/pytorch-vgg-cifar10
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 # VGG Paper talks about this except with mean 0 and variance 10^-2
@@ -100,23 +94,11 @@ class VGG(nn.Module):
         x = self.classifier(x)
         return x
 
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-])
-
-train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
-
-test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
-
+@timer
 def train_model(device, num_epochs):
     model = VGG().to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.05, momentum=0.1, weight_decay=0.0005)
-
-    start_time = time.time()
 
     for epoch in range(num_epochs):
         model.train()
@@ -134,9 +116,9 @@ def train_model(device, num_epochs):
 
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
 
-    end_time = time.time()
-    return model, end_time - start_time
+    return model
 
+@timer
 def test_model(model, device):
     model.eval()
     all_preds = []
@@ -170,27 +152,33 @@ def test_model(model, device):
     f.write("\nClassification Report:\n")
     f.write(class_report + "\n")
 
-def format_time(time):
-    hours = int(time // 3600)
-    minutes = int((time % 3600) // 60)
-    seconds = int(time % 60)
+def setup():
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
 
-    return f"{hours}h {minutes}m {seconds}s"
+    train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
+    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
 
-if torch.cuda.is_available():
-    print("Training on GPU...")
-    gpu_device = torch.device("cuda")
-    model, gpu_time = train_model(gpu_device, num_epochs)
+    test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
+    return train_loader, test_loader
 
-    formatted_time = format_time(gpu_time)
+def execute():
+    if torch.cuda.is_available():
+        print("Training on GPU...")
+        gpu_device = torch.device("cuda")
+        model = train_model(gpu_device, num_epochs, f=f, description="train")
+        print("\nTesting on Test Set")
+        test_model(model, gpu_device, f=f, description="test")
+    else:
+        print("GPU not available.")
 
-    print(f"GPU Training Time: {formatted_time}")
-    f.write(f"GPU Training Time: {formatted_time}\n")
-
-    print("\nTesting on Test Set")
-    test_model(model, gpu_device)
-else:
-    print("GPU not available.")
-
-f.write(f"===============================================================================")
-f.write(f"\n")
+if __name__ == "__main__":
+    args = get_args(epoch=True)
+    num_epochs = args.epochs
+    train_loader, test_loader = setup()
+    f = write_file("max_testing")
+    f.write("Using VGG Model\n")
+    execute()
