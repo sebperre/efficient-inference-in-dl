@@ -3,13 +3,13 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms, models
-from torch.utils.data import Subset
-import numpy as np
 import time
-import datetime
-import os
+import sys
 
-from utils import create_log_dir_and_folder, write_log_file, print_write
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
+
+from file_utils import write_file, print_write, get_args, timer
+from subset_data import get_subset
 
 class SimpleResNet(nn.Module):
     def __init__(self):
@@ -20,12 +20,7 @@ class SimpleResNet(nn.Module):
     def forward(self, x):
         return self.model(x)
 
-def get_subset(dataset, subset_size=1000, seed=42):
-    np.random.seed(seed)
-    indices = np.random.choice(len(dataset), subset_size, replace=False)
-    return Subset(dataset, indices)
-
-def train_model(device, num_epochs):
+def train_model(device, num_epochs, train_loader):
     model = SimpleResNet().to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
@@ -55,17 +50,15 @@ def run_on_cpu():
     print("Training on CPU...")
     cpu_device = torch.device("cpu")
     f.write(f"Running on {num_epochs} epoch(s) and {subset_size} images\n")
-    cpu_time = train_model(cpu_device, num_epochs)
-    print(f"CPU Training Time: {cpu_time:.2f} seconds")
-    f.write(f"CPU Training Time: {cpu_time:.2f} seconds\n")
+    cpu_time = train_model(cpu_device, num_epochs, train_loader)
+    print_write(f"GPU Training Time: {cpu_time:.2f} seconds", f)
 
 def run_on_gpu():
     if torch.cuda.is_available():
         print("Training on GPU...")
         gpu_device = torch.device("cuda")
-        gpu_time = train_model(gpu_device, num_epochs)
-        print(f"GPU Training Time: {gpu_time:.2f} seconds")
-        f.write(f"GPU Training Time: {gpu_time:.2f} seconds\n")
+        gpu_time = train_model(gpu_device, num_epochs, train_loader)
+        print_write(f"GPU Training Time: {gpu_time:.2f} seconds", f)
     else:
         print("GPU not available.")
 
@@ -73,10 +66,6 @@ def setup():
     path = kagglehub.dataset_download("ifigotin/imagenetmini-1000")
 
     print("CPU vs. GPU Testing: Path to dataset files:", path)
-
-    f.write(f"Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-    num_epochs = 1
-    subset_size = 1000
 
     transform = transforms.Compose([
         transforms.Resize(256),
@@ -89,13 +78,17 @@ def setup():
     train_dataset = datasets.ImageFolder(root=f"{data_dir}/train", transform=transform)
 
     train_subset = get_subset(train_dataset, subset_size=subset_size)
-    train_loader = torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
+    return torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
 
-if __name__ == "__main__":
-    create_log_dir_and_folder()
-    f = open("../logs/ImageNetTime.txt", "a")
-    setup()
+@timer  
+def execute():
     run_on_cpu()
     run_on_gpu()
 
-    f.write(f"\n")
+if __name__ == "__main__":
+    args = get_args(epoch=True, subset=True)
+    num_epochs = args.epochs
+    subset_size = args.subset
+    train_loader = setup()
+    f = write_file("cpu_vs_gpu")
+    execute(f=f, description="run cpu and gpu on ImageNet")
