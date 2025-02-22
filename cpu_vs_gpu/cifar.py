@@ -3,13 +3,12 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 import time
-import datetime
-import os
+import sys
 
-f = open("../logs/CIFAR10RunTime/CIFAR10RunTime.txt", "a")
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 
-f.write(f"CPU vs. GPU Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-num_epochs = 1
+from file_utils import write_file, print_write, get_args, timer
+from subset_data import get_subset
 
 class SimpleCNN(nn.Module):
     def __init__(self):
@@ -27,14 +26,6 @@ class SimpleCNN(nn.Module):
         x = torch.relu(self.fc1(x))
         x = self.fc2(x)
         return x
-
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-])
-
-train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
 
 def train_model(device, num_epochs):
     model = SimpleCNN().to(device)
@@ -62,22 +53,42 @@ def train_model(device, num_epochs):
     end_time = time.time()
     return end_time - start_time
 
-# Run on CPU
-print("Training on CPU...")
-cpu_device = torch.device("cpu")
-f.write(f"Running on {num_epochs} epoch(s)\n")
-cpu_time = train_model(cpu_device, num_epochs)
-print(f"CPU Training Time: {cpu_time:.2f} seconds")
-f.write(f"CPU Training Time: {cpu_time:.2f} seconds\n")
+def run_on_cpu():
+    print("Training on CPU...")
+    cpu_device = torch.device("cpu")
+    f.write(f"Running on {num_epochs} epoch(s)\n")
+    cpu_time = train_model(cpu_device, num_epochs)
+    print(f"CPU Training Time: {cpu_time:.2f} seconds")
+    f.write(f"CPU Training Time: {cpu_time:.2f} seconds\n")
 
-# Run on GPU
-if torch.cuda.is_available():
-    print("Training on GPU...")
-    gpu_device = torch.device("cuda")
-    gpu_time = train_model(gpu_device, num_epochs)
-    print(f"GPU Training Time: {gpu_time:.2f} seconds")
-    f.write(f"GPU Training Time: {gpu_time:.2f} seconds\n")
-else:
-    print("GPU not available.")
+def run_on_gpu():
+    if torch.cuda.is_available():
+        print("Training on GPU...")
+        gpu_device = torch.device("cuda")
+        gpu_time = train_model(gpu_device, num_epochs)
+        print(f"GPU Training Time: {gpu_time:.2f} seconds")
+        f.write(f"GPU Training Time: {gpu_time:.2f} seconds\n")
+    else:
+        print("GPU not available.")
 
-f.write(f"\n")
+def setup():
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+
+    train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
+    return torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+
+@timer  
+def execute():
+    run_on_cpu()
+    run_on_gpu()
+
+if __name__ == "__main__":
+    args = get_args(epoch=True)
+    num_epochs = args.epochs
+    train_loader = setup()
+    f = write_file("cpu_vs_gpu")
+    f.write("Using Simple CNN Model\n")
+    execute(f=f, description="run cpu and gpu on CIFAR with a Simple CNN model")

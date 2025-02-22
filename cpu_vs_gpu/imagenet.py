@@ -91,4 +91,5 @@ if __name__ == "__main__":
     subset_size = args.subset
     train_loader = setup()
     f = write_file("cpu_vs_gpu")
-    execute(f=f, description="run cpu and gpu on ImageNet")
+    f.write("Using ResNet Model\n")
+    execute(f=f, description="run cpu and gpu on ImageNet with a Simple ResNet model")
