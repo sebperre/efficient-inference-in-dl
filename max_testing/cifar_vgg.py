@@ -7,7 +7,7 @@ import math
 import sys
 sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 
-from file_utils import write_file, get_args, timer
+from file_utils import write_file, get_args, timer, print_write
 
 # Followed Geeksforgeeks description: https://www.geeksforgeeks.org/vgg-net-architecture-explained/
 
@@ -139,18 +139,11 @@ def test_model(model, device):
     f1 = f1_score(all_labels, all_preds, average='weighted')
     class_report = classification_report(all_labels, all_preds)
 
-    print(f"Accuracy: {accuracy:.4f}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall: {recall:.4f}")
-    print(f"F1 Score: {f1:.4f}")
-    print("\nClassification Report:\n", class_report)
-
-    f.write(f"Accuracy: {accuracy:.4f}\n")
-    f.write(f"Precision: {precision:.4f}\n")
-    f.write(f"Recall: {recall:.4f}\n")
-    f.write(f"F1 Score: {f1:.4f}\n")
-    f.write("\nClassification Report:\n")
-    f.write(class_report + "\n")
+    print_write(f"Accuracy: {accuracy:.4f}")
+    print_write(f"Precision: {precision:.4f}")
+    print_write(f"Recall: {recall:.4f}")
+    print_write(f"F1 Score: {f1:.4f}")
+    print_write("\nClassification Report:\n", class_report)
 
 def setup():
     transform = transforms.Compose([

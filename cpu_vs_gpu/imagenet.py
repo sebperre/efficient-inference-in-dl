@@ -51,14 +51,14 @@ def run_on_cpu():
     cpu_device = torch.device("cpu")
     f.write(f"Running on {num_epochs} epoch(s) and {subset_size} images\n")
     cpu_time = train_model(cpu_device, num_epochs, train_loader)
-    print_write(f"GPU Training Time: {cpu_time:.2f} seconds", f)
+    print_write(f"GPU Training Time: {cpu_time:.2f} seconds")
 
 def run_on_gpu():
     if torch.cuda.is_available():
         print("Training on GPU...")
         gpu_device = torch.device("cuda")
         gpu_time = train_model(gpu_device, num_epochs, train_loader)
-        print_write(f"GPU Training Time: {gpu_time:.2f} seconds", f)
+        print_write(f"GPU Training Time: {gpu_time:.2f} seconds")
     else:
         print("GPU not available.")
 
@@ -92,4 +92,4 @@ if __name__ == "__main__":
     train_loader = setup()
     f = write_file("cpu_vs_gpu")
     f.write("Using ResNet Model\n")
-    execute(f=f, description="run cpu and gpu on ImageNet with a Simple ResNet model")
+    execute(description="CPU and GPU on ImageNet with a ResNet model")

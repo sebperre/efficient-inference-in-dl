@@ -5,6 +5,8 @@ import argparse
 import time
 import functools
 
+FILE = None
+
 def format_time(time):
     """
     Formats time in hours, minutes and seconds.
@@ -17,16 +19,16 @@ def format_time(time):
 
 def timer(func):
     @functools.wraps(func)
-    def wrapper(*args, f=None, description=None, **kwargs):
+    def wrapper(*args, description=None, **kwargs):
         start_time = time.time()
         result = func(*args, **kwargs)
         end_time = time.time()
         elapsed_time = end_time - start_time
 
-        f.write(f"Took {format_time(elapsed_time)} to {description}.\n")
-        
-        if f is None or description is None:
+        if FILE is None or description is None:
             raise Exception("No file provided")
+
+        FILE.write(f"[Timer] {description}: Took {format_time(elapsed_time)}.\n")
 
         return result
 
@@ -36,19 +38,23 @@ def write_file(folder_name):
     """
     Creates the log directories if they don't exist.
     """
+    global FILE
     LOG_PATH = "/home/sebperre/programming-projects/efficient-inference-in-dl/logs"
     os.makedirs(LOG_PATH, exist_ok=True)
     os.makedirs(f"{LOG_PATH}/{folder_name}_{os.path.basename(sys.argv[0])[:-3]}", exist_ok=True)
     f = open(f"{LOG_PATH}/{folder_name}_{os.path.basename(sys.argv[0])[:-3]}/{datetime.datetime.now().strftime("%m-%d %H:%M")}.txt", "w")
     f.write(f"{folder_name} {os.path.basename(sys.argv[0])}: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
+    FILE = f
     return f
 
-def print_write(text, f):
+def print_write(text):
     """
     Prints and writes to file.
     """
+    if FILE is None:
+        raise Exception("No file provided")
     print(text)
-    f.write(f"{text}\n")
+    FILE.write(f"{text}\n")
 
 def get_args(epoch: bool = False, subset: bool = False, epoch_default: int = 50, subset_default: int = 1000):
     """
