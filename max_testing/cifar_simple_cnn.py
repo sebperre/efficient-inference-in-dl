@@ -74,7 +74,8 @@ def test_model(model, device):
     print_write(f"Precision: {precision:.4f}")
     print_write(f"Recall: {recall:.4f}")
     print_write(f"F1 Score: {f1:.4f}")
-    print_write("\nClassification Report:\n", class_report)
+    print_write("\nClassification Report:")
+    print_write(class_report)
 
 def setup():
     transform = transforms.Compose([
@@ -93,9 +94,9 @@ def execute():
     if torch.cuda.is_available():
         print("Training on GPU...")
         gpu_device = torch.device("cuda")
-        model = train_model(gpu_device, num_epochs, f=f, description="train")
+        model = train_model(gpu_device, num_epochs, description="Training")
         print("\nTesting on Test Set")
-        test_model(model, gpu_device, f=f, description="test")
+        test_model(model, gpu_device, description="Testing")
     else:
         print("GPU not available.")
 

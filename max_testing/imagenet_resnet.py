@@ -69,7 +69,8 @@ def test_model(model, device):
     print_write(f"Precision: {precision:.4f}\n")
     print_write(f"Recall: {recall:.4f}\n")
     print_write(f"F1 Score: {f1:.4f}\n")
-    print_write("\nClassification Report:\n", class_report)
+    print_write("\nClassification Report:")
+    print_write(class_report)
 
 def setup():
     path = kagglehub.dataset_download("ifigotin/imagenetmini-1000")
@@ -98,8 +99,8 @@ def execute():
     if torch.cuda.is_available():
         print("Training on GPU...")
         gpu_device = torch.device("cuda")
-        model = train_model(gpu_device, num_epochs, train_loader)
-        test_model(model, gpu_device)
+        model = train_model(gpu_device, num_epochs, train_loader, description="Training")
+        test_model(model, gpu_device, description="Testing")
     else:
         print("GPU not available.")
 
@@ -110,4 +111,4 @@ if __name__ == "__main__":
     train_loader, test_loader = setup()
     f = write_file("max_testing")
     f.write("Using ResNet Model\n")
-    execute(f=f, description="run max on ImageNet with a Simple ResNet model")
+    execute()
