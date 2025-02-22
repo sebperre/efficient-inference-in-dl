@@ -2,16 +2,11 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-import time
-import datetime
+import sys
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
-import numpy as np
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 
-f = open("../logs/CIFAR10RunTime.txt", "a")
-
-f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-num_epochs = 40
-f.write(f"Running on {num_epochs} epoch(s)\n")
+from file_utils import write_file, print_write, get_args, timer
 
 class SimpleCNN(nn.Module):
     def __init__(self):
@@ -30,23 +25,11 @@ class SimpleCNN(nn.Module):
         x = self.fc2(x)
         return x
 
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-])
-
-train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
-
-test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
-
+@timer
 def train_model(device, num_epochs):
     model = SimpleCNN().to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
-
-    start_time = time.time()
 
     for epoch in range(num_epochs):
         model.train()
@@ -64,9 +47,9 @@ def train_model(device, num_epochs):
 
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
 
-    end_time = time.time()
-    return model, end_time - start_time
+    return model
 
+@timer
 def test_model(model, device):
     model.eval()
     all_preds = []
@@ -100,16 +83,33 @@ def test_model(model, device):
     f.write("\nClassification Report:\n")
     f.write(class_report + "\n")
 
-if torch.cuda.is_available():
-    print("Training on GPU...")
-    gpu_device = torch.device("cuda")
-    model, gpu_time = train_model(gpu_device, num_epochs)
-    print(f"GPU Training Time: {gpu_time:.2f} seconds")
-    f.write(f"GPU Training Time: {gpu_time:.2f} seconds\n")
+def setup():
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
 
-    print("\nTesting on Test Set")
-    test_model(model, gpu_device)
-else:
-    print("GPU not available.")
+    train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
+    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
 
-f.write(f"\n")
+    test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
+    return train_loader, test_loader
+
+def execute():
+    if torch.cuda.is_available():
+        print("Training on GPU...")
+        gpu_device = torch.device("cuda")
+        model = train_model(gpu_device, num_epochs, f=f, description="train")
+        print("\nTesting on Test Set")
+        test_model(model, gpu_device, f=f, description="test")
+    else:
+        print("GPU not available.")
+
+if __name__ == "__main__":
+    args = get_args(epoch=True)
+    num_epochs = args.epochs
+    train_loader, test_loader = setup()
+    f = write_file("max_testing")
+    f.write("Using Simple CNN Model\n")
+    execute()

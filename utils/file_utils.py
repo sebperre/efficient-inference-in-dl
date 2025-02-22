@@ -50,7 +50,7 @@ def print_write(text, f):
     print(text)
     f.write(f"{text}\n")
 
-def get_args(epoch: bool, subset: bool, epoch_default: int = 50, subset_default: int = 1000):
+def get_args(epoch: bool = False, subset: bool = False, epoch_default: int = 50, subset_default: int = 1000):
     """
     Parse command-line arguments and return them.
     """

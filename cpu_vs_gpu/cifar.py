@@ -8,7 +8,6 @@ import sys
 sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 
 from file_utils import write_file, print_write, get_args, timer
-from subset_data import get_subset
 
 class SimpleCNN(nn.Module):
     def __init__(self):
@@ -58,16 +57,14 @@ def run_on_cpu():
     cpu_device = torch.device("cpu")
     f.write(f"Running on {num_epochs} epoch(s)\n")
     cpu_time = train_model(cpu_device, num_epochs)
-    print(f"CPU Training Time: {cpu_time:.2f} seconds")
-    f.write(f"CPU Training Time: {cpu_time:.2f} seconds\n")
+    print_write(f"CPU Training Time: {cpu_time:.2f} seconds", f)
 
 def run_on_gpu():
     if torch.cuda.is_available():
         print("Training on GPU...")
         gpu_device = torch.device("cuda")
         gpu_time = train_model(gpu_device, num_epochs)
-        print(f"GPU Training Time: {gpu_time:.2f} seconds")
-        f.write(f"GPU Training Time: {gpu_time:.2f} seconds\n")
+        print_write(f"GPU Training Time: {gpu_time:.2f} seconds", f)
     else:
         print("GPU not available.")
 
