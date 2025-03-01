@@ -89,7 +89,7 @@ def train_model(device, num_epochs, iteration):
 
 @timer
 def test_model(model, device):
-    global correct_labels
+    global label_tester
     model.eval()
     all_preds = []
     all_labels = []
@@ -103,15 +103,15 @@ def test_model(model, device):
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
     
-    if correct_labels is None:
-        correct_labels = np.array(all_labels)
+    if label_tester is None:
+        label_tester = np.array(all_labels)
 
-    predictions.append(np.array(all_preds))
+    predictions.append(np.array(all_preds) == label_tester)
 
     accuracy = accuracy_score(all_labels, all_preds)
-    precision = precision_score(all_labels, all_preds, average="weighted")
-    recall = recall_score(all_labels, all_preds, average="weighted")
-    f1 = f1_score(all_labels, all_preds, average="weighted")
+    precision = precision_score(all_labels, all_preds, average='weighted')
+    recall = recall_score(all_labels, all_preds, average='weighted')
+    f1 = f1_score(all_labels, all_preds, average='weighted')
     class_report = classification_report(all_labels, all_preds)
 
     print_write(f"Accuracy: {accuracy:.4f}")
@@ -122,56 +122,23 @@ def test_model(model, device):
     print_write(class_report)
 
 def compare_overlap():
-    global correct_labels
+    global label_tester
     num_models = len(predictions)
 
     correct_counts = {}
 
-    print_write("Overlap Table\n")
-
-    col_width1 = 12
-    col_width2 = 25
-    col_width3 = 25
-
-    
-
-    for w in range(num_models):
-        for s in range(w + 1, num_models):
-            print_write(f"Weaker {w} and Stronger {s}")
-            print_write(f"{"Label":<{col_width1}}{"% Weaker of Stronger":<{col_width2}}{"% Stronger of Weaker":<{col_width3}}")
-            print_write("-" * (col_width1 + col_width2 + col_width3))
-            for i in range(1, 11):
-                total_correct_strong = np.count_nonzero((correct_labels == i) & (predictions[s] == correct_labels))
-                total_correct_weak = np.count_nonzero((correct_labels == i) & (predictions[w] == correct_labels))
-                total_correct_both = np.count_nonzero((correct_labels == i) & (predictions[w] == correct_labels) & (predictions[s] == correct_labels))
-
-                if total_correct_strong == 0:
-                    percent_weaker_of_stronger = 0
-                else:
-                    percent_weaker_of_stronger = round((total_correct_both / total_correct_strong) * 100, 2)
-                if total_correct_weak == 0:
-                    percent_stronger_of_weaker = 0
-                else:
-                    percent_stronger_of_weaker = round((total_correct_both / total_correct_weak) * 100, 2)
-                print_write(f"{i:<{col_width1}}{percent_weaker_of_stronger:<{col_width2}}{percent_stronger_of_weaker:<{col_width3}}")
-            print_write("-" * (col_width1 + col_width2 + col_width3))
-            
-            total_correct_strong = np.count_nonzero(predictions[s] == correct_labels)
-            total_correct_weak = np.count_nonzero(predictions[w] == correct_labels)
-            total_correct_both = np.count_nonzero((predictions[w] == correct_labels) & (predictions[s] == correct_labels))
-
-            if total_correct_strong == 0:
-                percent_weaker_of_stronger = 0
+    for i in range(num_models):
+        for j in range(i + 1, num_models):
+            percentage = None
+            if np.sum(predictions[j]) > 0:
+                percentage = (np.sum(predictions[j] & (predictions[i] == predictions[j])) / np.sum(predictions[j])) * 100
             else:
-                percent_weaker_of_stronger = round((total_correct_both / total_correct_strong) * 100, 2)
-            if total_correct_weak == 0:
-                percent_stronger_of_weaker = 0
-            else:
-                percent_stronger_of_weaker = round((total_correct_both / total_correct_weak) * 100, 2)
-            print_write(f"% Weaker of Stronger Total: {percent_weaker_of_stronger}")
-            print_write(f"% Stronger of Weaker Total: {percent_stronger_of_weaker}")
-            print_write("")
-        
+                percentage = 0
+
+            correct_counts[(i, j)] = percentage
+    print_write("Overlap:")
+    print_write(f"{correct_counts}")
+
 def setup():
     train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
@@ -214,15 +181,28 @@ if __name__ == "__main__":
     iterations = len(depth_connections)
 
     predictions = []
-    correct_labels = None
+    label_tester = None
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
 
-    args = get_args(epoch=True)
-    num_epochs = args.epochs
-    train_loader, test_loader = setup()
-    f = write_file("iterative_models")
-    f.write("Using VGG Model\n")
-    execute()
+    train_dataset = datasets.CIFAR10(root="./data", train=True, download=True, transform=transform)
+    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+
+    test_dataset = datasets.CIFAR10(root="./data", train=False, download=True, transform=transform)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
+
+    for inputs, labels in test_loader:
+        print(labels == np.array([1 for x in range(64)]))
+        break
+
+    # for inputs, labels in train_loader:
+    #     print(inputs)
+
+    # args = get_args(epoch=True)
+    # num_epochs = args.epochs
+    # train_loader, test_loader = setup()
+    # f = write_file("iterative_models")
+    # f.write("Using VGG Model\n")
+    # execute()
