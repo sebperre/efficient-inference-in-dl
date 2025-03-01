@@ -2,46 +2,15 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-import time
-import datetime
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import numpy as np
 import math
+import sys
 
-######################################
-# USER INPUT
-num_epochs = 30
-######################################
-
-f = open(f"../logs/CIFAR10Iterative/{datetime.datetime.now().strftime("%m-%d %H:%M")}.txt", "w")
-
-f.write(f"Iterative Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-f.write(f"Running on VGG Architecture and {num_epochs} epoch(s)\n\n")
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
+from file_utils import write_file, print_write, get_args, timer
 
 # Followed Geeksforgeeks description: https://www.geeksforgeeks.org/vgg-net-architecture-explained/
-
-# Check for subset accuracy
-
-layer_configs = {
-    1: [64, "Pool"],
-    2: [64, 64, "Pool"],
-    3: [64, 64, "Pool", 128, 128, "Pool"],
-    4: [64, 64, 64, "Pool", 128, 128, 128, "Pool"],
-    5: [64, 64, 64, "Pool", 128, 128, 128, "Pool", 256, 256, 256, "Pool"]
-}
-
-depth_connections = {
-    1: 16384,
-    2: 16384,
-    3: 8192,
-    4: 8192,
-    5: 4096
-}
-
-iterations = len(depth_connections)
-
-predictions = []
-label_tester = None
 
 # Followed the format of https://github.com/chengyangfu/pytorch-vgg-cifar10
 def make_layers(layer_config):
@@ -91,24 +60,12 @@ class VGG(nn.Module):
         x = x.view(x.size(0), -1)
         x = self.classifier(x)
         return x
-
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-])
-
-train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
-
-test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
-
+    
+@timer
 def train_model(device, num_epochs, iteration):
     model = VGG(iteration).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.05, momentum=0.1, weight_decay=0.0005)
-
-    start_time = time.time()
 
     running_loss = 0.0
     for epoch in range(num_epochs):
@@ -126,11 +83,11 @@ def train_model(device, num_epochs, iteration):
             running_loss += loss.item()
 
         print(f"Iteration {iteration}: Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
-    f.write(f"Loss on Last Iteration for Training is {running_loss}\n")
+    print_write(f"Loss on Last Iteration for Training is {running_loss}")
 
-    end_time = time.time()
-    return model, end_time - start_time
+    return model
 
+@timer
 def test_model(model, device):
     global label_tester
     model.eval()
@@ -157,25 +114,12 @@ def test_model(model, device):
     f1 = f1_score(all_labels, all_preds, average='weighted')
     class_report = classification_report(all_labels, all_preds)
 
-    print(f"Accuracy: {accuracy:.4f}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall: {recall:.4f}")
-    print(f"F1 Score: {f1:.4f}")
-    print("\nClassification Report:\n", class_report)
-
-    f.write(f"Accuracy: {accuracy:.4f}\n")
-    f.write(f"Precision: {precision:.4f}\n")
-    f.write(f"Recall: {recall:.4f}\n")
-    f.write(f"F1 Score: {f1:.4f}\n")
-    f.write("\nClassification Report:\n")
-    f.write(class_report + "\n")
-
-def format_time(time):
-    hours = int(time // 3600)
-    minutes = int((time % 3600) // 60)
-    seconds = int(time % 60)
-
-    return f"{hours}h {minutes}m {seconds}s"
+    print_write(f"Accuracy: {accuracy:.4f}")
+    print_write(f"Precision: {precision:.4f}")
+    print_write(f"Recall: {recall:.4f}")
+    print_write(f"F1 Score: {f1:.4f}")
+    print_write("\nClassification Report:\n")
+    print_write(class_report)
 
 def compare_overlap():
     global label_tester
@@ -192,29 +136,60 @@ def compare_overlap():
                 percentage = 0
 
             correct_counts[(i, j)] = percentage
-    f.write("Overlap:\n")
-    f.write(f"{correct_counts}\n")
+    print_write("Overlap:")
+    print_write(f"{correct_counts}")
 
-if torch.cuda.is_available():
-    print("Training on GPU...")
-    gpu_device = torch.device("cuda")
+def setup():
+    train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
+    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
 
-    for iteration in range(1, iterations + 1):
-        model, gpu_time = train_model(gpu_device, num_epochs, iteration)
+    test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
 
-        formatted_time = format_time(gpu_time)
+    return train_loader, test_loader
 
-        print(f"GPU Training Time on Iteration {iteration}: {formatted_time}")
-        f.write(f"GPU Training Time on Iteration {iteration}: {formatted_time}\n")
+def execute():
+    if torch.cuda.is_available():
+        print("Training on GPU...")
+        gpu_device = torch.device("cuda")
+        for iteration in range(1, iterations + 1):
+            model = train_model(gpu_device, num_epochs, iteration, description=f"Training Iteration {iteration}")
+            print_write(f"\nIteration {iteration}: Testing on Test Set")
+            test_model(model, gpu_device, description=f"Testing Iteration {iteration}")
+        
+        compare_overlap()
+    else:
+        print("GPU not available.")
 
-        print(f"\nIteration {iteration}: Testing on Test Set")
-        f.write(f"Testing on Iteration {iteration}\n")
-        test_model(model, gpu_device)
-    
-    compare_overlap()
+if __name__ == "__main__":
+    layer_configs = {
+        1: [64, "Pool"],
+        2: [64, 64, "Pool"],
+        3: [64, 64, "Pool", 128, 128, "Pool"],
+        4: [64, 64, 64, "Pool", 128, 128, 128, "Pool"],
+        5: [64, 64, 64, "Pool", 128, 128, 128, "Pool", 256, 256, 256, "Pool"]
+    }
 
-else:
-    print("GPU not available.")
+    depth_connections = {
+        1: 16384,
+        2: 16384,
+        3: 8192,
+        4: 8192,
+        5: 4096
+    }
 
-f.write(f"===============================================================================")
-f.write(f"\n")
+    iterations = len(depth_connections)
+
+    predictions = []
+    label_tester = None
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+
+    args = get_args(epoch=True)
+    num_epochs = args.epochs
+    train_loader, test_loader = setup()
+    f = write_file("iterative_models")
+    f.write("Using VGG Model\n")
+    execute()
