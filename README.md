@@ -2,6 +2,11 @@
 
 This is an honours project for CSC 499.
 
+## Objectives Completed
+
+1. Learned PyTorch
+2. Looked at VGGs, ResNet, CNNs and how we can use them on datasets like CIFAR-10 and ImageNet.
+
 ## Resources Used
 
 Article: [DAWNBench](https://dawnd9.sites.stanford.edu/dawnbench)
