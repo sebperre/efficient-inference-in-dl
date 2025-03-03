@@ -5,62 +5,15 @@ from torchvision import datasets, transforms
 import torch
 from torch.utils.data import Subset
 import numpy as np
-import time, datetime
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
+import sys
 
-train_data_percentage = 0.3
-architecture = 11
-num_epochs = 20
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 
-pretrained_vgg = None
-if architecture == 11:
-    pretrained_vgg = vgg11(pretrained=True)
-elif architecture == 13:
-    pretrained_vgg = vgg13(pretrained=True)
-elif architecture == 16:
-    pretrained_vgg = vgg16(pretrained=True)
-elif architecture == 19:
-    pretrained_vgg = vgg19(pretrained=True)
+from file_utils import write_file, print_write, get_args, timer
 
-f = open("../logs/CIFAR10RunTime.txt", "a")
-
-print("writing")
-f.write(f"===============================================================================\n")
-f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-f.write(f"Running on Pretrained VGG {architecture} Architecture, {int(train_data_percentage * 100)}% CIFAR-10 Training Data, and {num_epochs} Epoch(s)\n")
-print("done writing")
-
-pretrained_vgg.classifier[6] = nn.Linear(pretrained_vgg.classifier[6].in_features, 10)
-
-for param in pretrained_vgg.features.parameters():
-    param.requires_grad = False
-
-device = torch.device("cuda")
-pretrained_vgg = pretrained_vgg.to(device)
-
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(pretrained_vgg.classifier.parameters(), lr=0.001)
-
-transform = transforms.Compose([
-    transforms.Resize(224),
-    transforms.RandomHorizontalFlip(),
-    transforms.RandomCrop(224, padding=4),
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-])
-
-train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
-
-subset_size = int(len(train_dataset) * train_data_percentage)
-indices = np.random.choice(len(train_dataset), size=subset_size, replace=False)
-
-train_subset = Subset(train_dataset, indices)
-train_loader = torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
-
-test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
-
-def train_model(model, train_loader, criterion, optimizer, device, num_epochs=20):
+@timer
+def train_model(model, train_loader, criterion, optimizer, device, num_epochs):
     print("training start")
     model.train()
     for epoch in range(num_epochs):
@@ -78,6 +31,7 @@ def train_model(model, train_loader, criterion, optimizer, device, num_epochs=20
 
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
 
+@timer
 def test_model(model, device):
     model.eval()
     all_preds = []
@@ -98,34 +52,65 @@ def test_model(model, device):
     f1 = f1_score(all_labels, all_preds, average='weighted')
     class_report = classification_report(all_labels, all_preds)
 
-    print(f"Accuracy: {accuracy:.4f}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall: {recall:.4f}")
-    print(f"F1 Score: {f1:.4f}")
-    print("\nClassification Report:\n", class_report)
+    print_write(f"Accuracy: {accuracy:.4f}")
+    print_write(f"Precision: {precision:.4f}")
+    print_write(f"Recall: {recall:.4f}")
+    print_write(f"F1 Score: {f1:.4f}")
+    print_write("\nClassification Report:\n")
+    print_write(class_report)
 
-    f.write(f"Accuracy: {accuracy:.4f}\n")
-    f.write(f"Precision: {precision:.4f}\n")
-    f.write(f"Recall: {recall:.4f}\n")
-    f.write(f"F1 Score: {f1:.4f}\n")
-    f.write("\nClassification Report:\n")
-    f.write(class_report + "\n")
+def setup():
+    transform = transforms.Compose([
+        transforms.Resize(224),
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomCrop(224, padding=4),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
 
-def format_time(time):
-    hours = int(time // 3600)
-    minutes = int((time % 3600) // 60)
-    seconds = int(time % 60)
+    train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
 
-    return f"{hours}h {minutes}m {seconds}s"
+    subset_size = int(len(train_dataset) * train_data_percentage)
+    indices = np.random.choice(len(train_dataset), size=subset_size, replace=False)
 
-start_time = time.time()
-train_model(pretrained_vgg, train_loader, criterion, optimizer, device, num_epochs)
-end_time = time.time()
+    train_subset = Subset(train_dataset, indices)
+    train_loader = torch.utils.data.DataLoader(train_subset, batch_size=64, shuffle=True)
 
-formatted_time = format_time(end_time - start_time)
-print(f"GPU Training Time: {formatted_time}")
-f.write(f"GPU Training Time: {formatted_time}\n")
+    test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
 
-test_model(pretrained_vgg, device)
-f.write(f"===============================================================================")
-f.write("\n")
+    return train_loader, test_loader
+
+def execute():
+    pretrained_vgg = None
+    if architecture == 11:
+        pretrained_vgg = vgg11(pretrained=True)
+    elif architecture == 13:
+        pretrained_vgg = vgg13(pretrained=True)
+    elif architecture == 16:
+        pretrained_vgg = vgg16(pretrained=True)
+    elif architecture == 19:
+        pretrained_vgg = vgg19(pretrained=True)
+
+    pretrained_vgg.classifier[6] = nn.Linear(pretrained_vgg.classifier[6].in_features, 10)
+
+    for param in pretrained_vgg.features.parameters():
+        param.requires_grad = False
+
+    device = torch.device("cuda")
+    pretrained_vgg = pretrained_vgg.to(device)
+
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(pretrained_vgg.classifier.parameters(), lr=0.001)
+    train_model(pretrained_vgg, train_loader, criterion, optimizer, device, num_epochs, description="Training")
+    test_model(pretrained_vgg, device, description="Testing")
+
+if __name__ == "__main__":
+    train_data_percentage = 0.3
+    architecture = 11
+    args = get_args(epoch=True)
+    num_epochs = args.epochs
+    train_loader, test_loader = setup()
+    f = write_file("max_testing")
+    f.write("Using VGG Model\n")
+    execute()
