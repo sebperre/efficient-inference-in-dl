@@ -2,24 +2,14 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-import time
-import datetime
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
-import numpy as np
-from torch.utils.data import Subset
 import kagglehub
+import sys
 
-# path = kagglehub.dataset_download("ifigotin/imagenetmini-1000")
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 
-# print("Path to dataset files:", path)
-
-# f = open("../logs/ImageNetTime.txt", "a")
-
-# f.write(f"===============================================================================")
-# f.write(f"Max Testing: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
-# num_epochs = 20
-# subset_size = 1000
-# f.write(f"Running on VGG Architecture, {subset_size} images and {num_epochs} epoch(s)\n")
+from file_utils import write_file, print_write, get_args, timer
+from subset_data import get_subset
 
 # Followed Geeksforgeeks description: https://www.geeksforgeeks.org/vgg-net-architecture-explained/
 
@@ -124,111 +114,96 @@ class VGG(nn.Module):
         x = self.classifier(x)
         return x
 
-# transform = transforms.Compose([
-#     transforms.Resize(256),
-#     transforms.CenterCrop(224),
-#     transforms.ToTensor(),
-#     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-# ])
+@timer
+def train_model(device, num_epochs):
+    model = VGG().to(device)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(model.parameters(), lr=0.05, momentum=0.1, weight_decay=0.0005)
 
-# data_dir = "~/.cache/kagglehub/datasets/ifigotin/imagenetmini-1000/versions/1/imagenet-mini"
-# train_dataset = datasets.ImageFolder(root=f"{data_dir}/train", transform=transform)
+    for epoch in range(num_epochs):
+        model.train()
+        running_loss = 0.0
+        for inputs, labels in train_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
 
-# def get_subset(dataset, subset_size=1000, seed=42):
-#     np.random.seed(seed)
-#     indices = np.random.choice(len(dataset), subset_size, replace=False)
-#     return Subset(dataset, indices)
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
 
-# # train_subset = get_subset(train_dataset, subset_size=subset_size)
-# test_dataset = datasets.ImageFolder(root=f"{data_dir}/val", transform=transform)
-# # test_subset = get_subset(test_dataset, subset_size=subset_size)
+            running_loss += loss.item()
 
-# #train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=16, shuffle=True)
-# #test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=16, shuffle=False)
+        print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
 
-# train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=16, shuffle=True)
-# test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=16, shuffle=False)
+    return model
 
-# def train_model(device, num_epochs):
-#     model = VGG().to(device)
-#     criterion = nn.CrossEntropyLoss()
-#     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay=0.0005)
+@timer
+def test_model(model, device):
+    model.eval()
+    all_preds = []
+    all_labels = []
 
-#     start_time = time.time()
+    with torch.no_grad():
+        for inputs, labels in test_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
+            outputs = model(inputs)
+            _, preds = torch.max(outputs, 1)
 
-#     for epoch in range(num_epochs):
-#         model.train()
-#         running_loss = 0.0
-#         for inputs, labels in train_loader:
-#             inputs, labels = inputs.to(device), labels.to(device)
+            all_preds.extend(preds.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
 
-#             optimizer.zero_grad()
-#             outputs = model(inputs)
-#             loss = criterion(outputs, labels)
-#             loss.backward()
-#             optimizer.step()
+    accuracy = accuracy_score(all_labels, all_preds)
+    precision = precision_score(all_labels, all_preds, average='weighted')
+    recall = recall_score(all_labels, all_preds, average='weighted')
+    f1 = f1_score(all_labels, all_preds, average='weighted')
+    class_report = classification_report(all_labels, all_preds)
 
-#             running_loss += loss.item()
+    print_write(f"Accuracy: {accuracy:.4f}")
+    print_write(f"Precision: {precision:.4f}")
+    print_write(f"Recall: {recall:.4f}")
+    print_write(f"F1 Score: {f1:.4f}")
+    print_write("\nClassification Report:")
+    print_write(class_report)
 
-#         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
+def setup():
+    path = kagglehub.dataset_download("ifigotin/imagenetmini-1000")
 
-#     end_time = time.time()
-#     return model, end_time - start_time
+    transform = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+    ])
 
-# def test_model(model, device):
-#     model.eval()
-#     all_preds = []
-#     all_labels = []
+    data_dir = "~/.cache/kagglehub/datasets/ifigotin/imagenetmini-1000/versions/1/imagenet-mini"
+    train_dataset = datasets.ImageFolder(root=f"{data_dir}/train", transform=transform)
+    test_dataset = datasets.ImageFolder(root=f"{data_dir}/val", transform=transform)
 
-#     with torch.no_grad():
-#         for inputs, labels in test_loader:
-#             inputs, labels = inputs.to(device), labels.to(device)
-#             outputs = model(inputs)
-#             _, preds = torch.max(outputs, 1)
+    if subset_size != -1:
+        train_dataset = get_subset(train_dataset, subset_size=subset_size)
+        test_dataset = get_subset(test_dataset, subset_size=subset_size)
 
-#             all_preds.extend(preds.cpu().numpy())
-#             all_labels.extend(labels.cpu().numpy())
+    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=16, shuffle=True)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=16, shuffle=False)
 
-#     accuracy = accuracy_score(all_labels, all_preds)
-#     precision = precision_score(all_labels, all_preds, average='weighted')
-#     recall = recall_score(all_labels, all_preds, average='weighted')
-#     f1 = f1_score(all_labels, all_preds, average='weighted')
-#     class_report = classification_report(all_labels, all_preds)
+    return train_loader, test_loader
 
-#     print(f"Accuracy: {accuracy:.4f}")
-#     print(f"Precision: {precision:.4f}")
-#     print(f"Recall: {recall:.4f}")
-#     print(f"F1 Score: {f1:.4f}")
-#     print("\nClassification Report:\n", class_report)
+def execute():
+    torch.cuda.empty_cache()
+    if torch.cuda.is_available():
+        print("Training on GPU...")
+        gpu_device = torch.device("cuda")
+        model = train_model(gpu_device, num_epochs, description="Training")
+        test_model(model, gpu_device, description="Testing")
+    else:
+        print("GPU not available.")
 
-#     f.write(f"Accuracy: {accuracy:.4f}\n")
-#     f.write(f"Precision: {precision:.4f}\n")
-#     f.write(f"Recall: {recall:.4f}\n")
-#     f.write(f"F1 Score: {f1:.4f}\n")
-#     f.write("\nClassification Report:\n")
-#     f.write(class_report + "\n")
-
-# def format_time(time):
-#     hours = int(time // 3600)
-#     minutes = int((time % 3600) // 60)
-#     seconds = int(time % 60)
-
-#     return f"{hours}h {minutes}m {seconds}s"
-# torch.cuda.empty_cache()
-# if torch.cuda.is_available():
-#     print("Training on GPU...")
-#     gpu_device = torch.device("cuda")
-#     model, gpu_time = train_model(gpu_device, num_epochs)
-
-#     formatted_time = format_time(gpu_time)
-
-#     print(f"GPU Training Time: {formatted_time}")
-#     f.write(f"GPU Training Time: {formatted_time}\n")
-
-#     print("\nTesting on Test Set")
-#     test_model(model, gpu_device)
-# else:
-#     print("GPU not available.")
-
-# f.write(f"===============================================================================")
-# f.write(f"\n")
+if __name__ == "__main__":
+    args = get_args(epoch=True, subset=True)
+    num_epochs = args.epochs
+    subset_size = args.subset
+    train_loader, test_loader = setup()
+    f = write_file("max_testing")
+    f.write("Using VGG Model\n")
+    execute()
