@@ -125,22 +125,18 @@ def compare_overlap():
     global correct_labels
     num_models = len(predictions)
 
-    correct_counts = {}
-
     print_write("Overlap Table\n")
 
     col_width1 = 12
     col_width2 = 25
     col_width3 = 25
 
-    
-
     for w in range(num_models):
         for s in range(w + 1, num_models):
             print_write(f"Weaker {w} and Stronger {s}")
             print_write(f"{"Label":<{col_width1}}{"% Weaker of Stronger":<{col_width2}}{"% Stronger of Weaker":<{col_width3}}")
             print_write("-" * (col_width1 + col_width2 + col_width3))
-            for i in range(1, 11):
+            for i in range(10):
                 total_correct_strong = np.count_nonzero((correct_labels == i) & (predictions[s] == correct_labels))
                 total_correct_weak = np.count_nonzero((correct_labels == i) & (predictions[w] == correct_labels))
                 total_correct_both = np.count_nonzero((correct_labels == i) & (predictions[w] == correct_labels) & (predictions[s] == correct_labels))

@@ -1,103 +1,559 @@
 nohup: ignoring input
 Training on GPU...
-Iteration 1: Epoch [1/50], Loss: 1.7962
-Iteration 1: Epoch [2/50], Loss: 1.4174
-Iteration 1: Epoch [3/50], Loss: 1.2855
-Iteration 1: Epoch [4/50], Loss: 1.1846
-Iteration 1: Epoch [5/50], Loss: 1.1115
-Iteration 1: Epoch [6/50], Loss: 1.0493
-Iteration 1: Epoch [7/50], Loss: 0.9995
-Iteration 1: Epoch [8/50], Loss: 0.9528
-Iteration 1: Epoch [9/50], Loss: 0.9099
-Iteration 1: Epoch [10/50], Loss: 0.8699
-Iteration 1: Epoch [11/50], Loss: 0.8415
-Iteration 1: Epoch [12/50], Loss: 0.8069
-Iteration 1: Epoch [13/50], Loss: 0.7726
-Iteration 1: Epoch [14/50], Loss: 0.7411
-Iteration 1: Epoch [15/50], Loss: 0.7112
-Iteration 1: Epoch [16/50], Loss: 0.6867
-Iteration 1: Epoch [17/50], Loss: 0.6631
-Iteration 1: Epoch [18/50], Loss: 0.6367
-Iteration 1: Epoch [19/50], Loss: 0.6194
-Iteration 1: Epoch [20/50], Loss: 0.5967
-Iteration 1: Epoch [21/50], Loss: 0.5750
-Iteration 1: Epoch [22/50], Loss: 0.5627
-Iteration 1: Epoch [23/50], Loss: 0.5368
-Iteration 1: Epoch [24/50], Loss: 0.5245
-Iteration 1: Epoch [25/50], Loss: 0.5075
-Iteration 1: Epoch [26/50], Loss: 0.4905
-Iteration 1: Epoch [27/50], Loss: 0.4734
-Iteration 1: Epoch [28/50], Loss: 0.4662
-Iteration 1: Epoch [29/50], Loss: 0.4514
-Iteration 1: Epoch [30/50], Loss: 0.4433
-Iteration 1: Epoch [31/50], Loss: 0.4263
-Iteration 1: Epoch [32/50], Loss: 0.4237
-Iteration 1: Epoch [33/50], Loss: 0.4095
-Iteration 1: Epoch [34/50], Loss: 0.3991
-Iteration 1: Epoch [35/50], Loss: 0.3946
-Iteration 1: Epoch [36/50], Loss: 0.3864
-Iteration 1: Epoch [37/50], Loss: 0.3807
-Iteration 1: Epoch [38/50], Loss: 0.3728
-Iteration 1: Epoch [39/50], Loss: 0.3662
-Iteration 1: Epoch [40/50], Loss: 0.3616
-Iteration 1: Epoch [41/50], Loss: 0.3512
-Iteration 1: Epoch [42/50], Loss: 0.3488
-Iteration 1: Epoch [43/50], Loss: 0.3431
-Iteration 1: Epoch [44/50], Loss: 0.3345
-Iteration 1: Epoch [45/50], Loss: 0.3331
-Iteration 1: Epoch [46/50], Loss: 0.3257
-Iteration 1: Epoch [47/50], Loss: 0.3274
-Iteration 1: Epoch [48/50], Loss: 0.3211
-Iteration 1: Epoch [49/50], Loss: 0.3172
-Iteration 1: Epoch [50/50], Loss: 0.3120
-Loss on Last Iteration for Training is 243.993067368865
+Iteration 1: Epoch [1/50], Loss: 1.7844
+Iteration 1: Epoch [2/50], Loss: 1.4119
+Iteration 1: Epoch [3/50], Loss: 1.2862
+Iteration 1: Epoch [4/50], Loss: 1.1852
+Iteration 1: Epoch [5/50], Loss: 1.1151
+Iteration 1: Epoch [6/50], Loss: 1.0474
+Iteration 1: Epoch [7/50], Loss: 1.0007
+Iteration 1: Epoch [8/50], Loss: 0.9502
+Iteration 1: Epoch [9/50], Loss: 0.9095
+Iteration 1: Epoch [10/50], Loss: 0.8757
+Iteration 1: Epoch [11/50], Loss: 0.8396
+Iteration 1: Epoch [12/50], Loss: 0.8067
+Iteration 1: Epoch [13/50], Loss: 0.7756
+Iteration 1: Epoch [14/50], Loss: 0.7485
+Iteration 1: Epoch [15/50], Loss: 0.7200
+Iteration 1: Epoch [16/50], Loss: 0.6911
+Iteration 1: Epoch [17/50], Loss: 0.6708
+Iteration 1: Epoch [18/50], Loss: 0.6481
+Iteration 1: Epoch [19/50], Loss: 0.6229
+Iteration 1: Epoch [20/50], Loss: 0.5996
+Iteration 1: Epoch [21/50], Loss: 0.5892
+Iteration 1: Epoch [22/50], Loss: 0.5671
+Iteration 1: Epoch [23/50], Loss: 0.5507
+Iteration 1: Epoch [24/50], Loss: 0.5323
+Iteration 1: Epoch [25/50], Loss: 0.5208
+Iteration 1: Epoch [26/50], Loss: 0.5049
+Iteration 1: Epoch [27/50], Loss: 0.4959
+Iteration 1: Epoch [28/50], Loss: 0.4841
+Iteration 1: Epoch [29/50], Loss: 0.4667
+Iteration 1: Epoch [30/50], Loss: 0.4511
+Iteration 1: Epoch [31/50], Loss: 0.4431
+Iteration 1: Epoch [32/50], Loss: 0.4349
+Iteration 1: Epoch [33/50], Loss: 0.4272
+Iteration 1: Epoch [34/50], Loss: 0.4241
+Iteration 1: Epoch [35/50], Loss: 0.4098
+Iteration 1: Epoch [36/50], Loss: 0.3991
+Iteration 1: Epoch [37/50], Loss: 0.3925
+Iteration 1: Epoch [38/50], Loss: 0.3851
+Iteration 1: Epoch [39/50], Loss: 0.3780
+Iteration 1: Epoch [40/50], Loss: 0.3664
+Iteration 1: Epoch [41/50], Loss: 0.3690
+Iteration 1: Epoch [42/50], Loss: 0.3641
+Iteration 1: Epoch [43/50], Loss: 0.3529
+Iteration 1: Epoch [44/50], Loss: 0.3556
+Iteration 1: Epoch [45/50], Loss: 0.3412
+Iteration 1: Epoch [46/50], Loss: 0.3388
+Iteration 1: Epoch [47/50], Loss: 0.3327
+Iteration 1: Epoch [48/50], Loss: 0.3295
+Iteration 1: Epoch [49/50], Loss: 0.3263
+Iteration 1: Epoch [50/50], Loss: 0.3196
+Loss on Last Iteration for Training is 249.89184429496527
 
 Iteration 1: Testing on Test Set
-Accuracy: 0.7252
-Precision: 0.7274
-Recall: 0.7252
-F1 Score: 0.7237
+Accuracy: 0.7077
+Precision: 0.7129
+Recall: 0.7077
+F1 Score: 0.7069
 
 Classification Report:
 
               precision    recall  f1-score   support
 
-           0       0.78      0.75      0.77      1000
-           1       0.84      0.83      0.83      1000
-           2       0.71      0.51      0.59      1000
-           3       0.54      0.57      0.55      1000
-           4       0.70      0.66      0.68      1000
-           5       0.59      0.64      0.61      1000
-           6       0.72      0.85      0.78      1000
-           7       0.80      0.80      0.80      1000
-           8       0.85      0.82      0.83      1000
-           9       0.76      0.83      0.79      1000
+           0       0.81      0.68      0.74      1000
+           1       0.71      0.91      0.80      1000
+           2       0.56      0.66      0.61      1000
+           3       0.55      0.47      0.51      1000
+           4       0.64      0.68      0.66      1000
+           5       0.61      0.61      0.61      1000
+           6       0.77      0.80      0.79      1000
+           7       0.76      0.78      0.77      1000
+           8       0.88      0.79      0.83      1000
+           9       0.82      0.69      0.75      1000
 
-    accuracy                           0.73     10000
-   macro avg       0.73      0.73      0.72     10000
-weighted avg       0.73      0.73      0.72     10000
+    accuracy                           0.71     10000
+   macro avg       0.71      0.71      0.71     10000
+weighted avg       0.71      0.71      0.71     10000
 
-Iteration 2: Epoch [1/50], Loss: 1.8012
-Iteration 2: Epoch [2/50], Loss: 1.3628
-Iteration 2: Epoch [3/50], Loss: 1.1721
-Iteration 2: Epoch [4/50], Loss: 1.0425
-Iteration 2: Epoch [5/50], Loss: 0.9433
-Iteration 2: Epoch [6/50], Loss: 0.8650
-Iteration 2: Epoch [7/50], Loss: 0.7942
-Iteration 2: Epoch [8/50], Loss: 0.7351
-Iteration 2: Epoch [9/50], Loss: 0.6759
-Iteration 2: Epoch [10/50], Loss: 0.6234
-Iteration 2: Epoch [11/50], Loss: 0.5796
-Iteration 2: Epoch [12/50], Loss: 0.5409
-Iteration 2: Epoch [13/50], Loss: 0.4983
-Iteration 2: Epoch [14/50], Loss: 0.4596
-Iteration 2: Epoch [15/50], Loss: 0.4293
-Iteration 2: Epoch [16/50], Loss: 0.4099
-Iteration 2: Epoch [17/50], Loss: 0.3758
-Iteration 2: Epoch [18/50], Loss: 0.3577
-Iteration 2: Epoch [19/50], Loss: 0.3401
-Iteration 2: Epoch [20/50], Loss: 0.3155
-Iteration 2: Epoch [21/50], Loss: 0.3041
-Iteration 2: Epoch [22/50], Loss: 0.2842
-Iteration 2: Epoch [23/50], Loss: 0.2733
-Iteration 2: Epoch [24/50], Loss: 0.2674
+Iteration 2: Epoch [1/50], Loss: 1.7860
+Iteration 2: Epoch [2/50], Loss: 1.3857
+Iteration 2: Epoch [3/50], Loss: 1.1976
+Iteration 2: Epoch [4/50], Loss: 1.0602
+Iteration 2: Epoch [5/50], Loss: 0.9651
+Iteration 2: Epoch [6/50], Loss: 0.8870
+Iteration 2: Epoch [7/50], Loss: 0.8186
+Iteration 2: Epoch [8/50], Loss: 0.7515
+Iteration 2: Epoch [9/50], Loss: 0.6961
+Iteration 2: Epoch [10/50], Loss: 0.6418
+Iteration 2: Epoch [11/50], Loss: 0.5916
+Iteration 2: Epoch [12/50], Loss: 0.5509
+Iteration 2: Epoch [13/50], Loss: 0.5116
+Iteration 2: Epoch [14/50], Loss: 0.4776
+Iteration 2: Epoch [15/50], Loss: 0.4457
+Iteration 2: Epoch [16/50], Loss: 0.4177
+Iteration 2: Epoch [17/50], Loss: 0.3913
+Iteration 2: Epoch [18/50], Loss: 0.3671
+Iteration 2: Epoch [19/50], Loss: 0.3479
+Iteration 2: Epoch [20/50], Loss: 0.3325
+Iteration 2: Epoch [21/50], Loss: 0.3112
+Iteration 2: Epoch [22/50], Loss: 0.2942
+Iteration 2: Epoch [23/50], Loss: 0.2870
+Iteration 2: Epoch [24/50], Loss: 0.2726
+Iteration 2: Epoch [25/50], Loss: 0.2531
+Iteration 2: Epoch [26/50], Loss: 0.2451
+Iteration 2: Epoch [27/50], Loss: 0.2371
+Iteration 2: Epoch [28/50], Loss: 0.2295
+Iteration 2: Epoch [29/50], Loss: 0.2202
+Iteration 2: Epoch [30/50], Loss: 0.2153
+Iteration 2: Epoch [31/50], Loss: 0.2117
+Iteration 2: Epoch [32/50], Loss: 0.2059
+Iteration 2: Epoch [33/50], Loss: 0.1994
+Iteration 2: Epoch [34/50], Loss: 0.1949
+Iteration 2: Epoch [35/50], Loss: 0.1951
+Iteration 2: Epoch [36/50], Loss: 0.1848
+Iteration 2: Epoch [37/50], Loss: 0.1840
+Iteration 2: Epoch [38/50], Loss: 0.1765
+Iteration 2: Epoch [39/50], Loss: 0.1744
+Iteration 2: Epoch [40/50], Loss: 0.1738
+Iteration 2: Epoch [41/50], Loss: 0.1667
+Iteration 2: Epoch [42/50], Loss: 0.1669
+Iteration 2: Epoch [43/50], Loss: 0.1669
+Iteration 2: Epoch [44/50], Loss: 0.1640
+Iteration 2: Epoch [45/50], Loss: 0.1637
+Iteration 2: Epoch [46/50], Loss: 0.1598
+Iteration 2: Epoch [47/50], Loss: 0.1546
+Iteration 2: Epoch [48/50], Loss: 0.1545
+Iteration 2: Epoch [49/50], Loss: 0.1526
+Iteration 2: Epoch [50/50], Loss: 0.1503
+Loss on Last Iteration for Training is 117.50554326735437
+
+Iteration 2: Testing on Test Set
+Accuracy: 0.7565
+Precision: 0.7637
+Recall: 0.7565
+F1 Score: 0.7578
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.76      0.83      0.79      1000
+           1       0.83      0.88      0.85      1000
+           2       0.71      0.64      0.67      1000
+           3       0.54      0.66      0.59      1000
+           4       0.72      0.72      0.72      1000
+           5       0.66      0.65      0.66      1000
+           6       0.88      0.76      0.82      1000
+           7       0.90      0.73      0.80      1000
+           8       0.83      0.88      0.85      1000
+           9       0.81      0.83      0.82      1000
+
+    accuracy                           0.76     10000
+   macro avg       0.76      0.76      0.76     10000
+weighted avg       0.76      0.76      0.76     10000
+
+Iteration 3: Epoch [1/50], Loss: 1.8899
+Iteration 3: Epoch [2/50], Loss: 1.4260
+Iteration 3: Epoch [3/50], Loss: 1.2025
+Iteration 3: Epoch [4/50], Loss: 1.0380
+Iteration 3: Epoch [5/50], Loss: 0.9188
+Iteration 3: Epoch [6/50], Loss: 0.8277
+Iteration 3: Epoch [7/50], Loss: 0.7532
+Iteration 3: Epoch [8/50], Loss: 0.6933
+Iteration 3: Epoch [9/50], Loss: 0.6454
+Iteration 3: Epoch [10/50], Loss: 0.5906
+Iteration 3: Epoch [11/50], Loss: 0.5570
+Iteration 3: Epoch [12/50], Loss: 0.5177
+Iteration 3: Epoch [13/50], Loss: 0.4841
+Iteration 3: Epoch [14/50], Loss: 0.4601
+Iteration 3: Epoch [15/50], Loss: 0.4322
+Iteration 3: Epoch [16/50], Loss: 0.4034
+Iteration 3: Epoch [17/50], Loss: 0.3827
+Iteration 3: Epoch [18/50], Loss: 0.3647
+Iteration 3: Epoch [19/50], Loss: 0.3510
+Iteration 3: Epoch [20/50], Loss: 0.3263
+Iteration 3: Epoch [21/50], Loss: 0.3122
+Iteration 3: Epoch [22/50], Loss: 0.3065
+Iteration 3: Epoch [23/50], Loss: 0.2862
+Iteration 3: Epoch [24/50], Loss: 0.2807
+Iteration 3: Epoch [25/50], Loss: 0.2684
+Iteration 3: Epoch [26/50], Loss: 0.2530
+Iteration 3: Epoch [27/50], Loss: 0.2485
+Iteration 3: Epoch [28/50], Loss: 0.2412
+Iteration 3: Epoch [29/50], Loss: 0.2307
+Iteration 3: Epoch [30/50], Loss: 0.2269
+Iteration 3: Epoch [31/50], Loss: 0.2200
+Iteration 3: Epoch [32/50], Loss: 0.2175
+Iteration 3: Epoch [33/50], Loss: 0.2080
+Iteration 3: Epoch [34/50], Loss: 0.2036
+Iteration 3: Epoch [35/50], Loss: 0.1988
+Iteration 3: Epoch [36/50], Loss: 0.1964
+Iteration 3: Epoch [37/50], Loss: 0.1886
+Iteration 3: Epoch [38/50], Loss: 0.1818
+Iteration 3: Epoch [39/50], Loss: 0.1840
+Iteration 3: Epoch [40/50], Loss: 0.1786
+Iteration 3: Epoch [41/50], Loss: 0.1741
+Iteration 3: Epoch [42/50], Loss: 0.1799
+Iteration 3: Epoch [43/50], Loss: 0.1703
+Iteration 3: Epoch [44/50], Loss: 0.1679
+Iteration 3: Epoch [45/50], Loss: 0.1635
+Iteration 3: Epoch [46/50], Loss: 0.1633
+Iteration 3: Epoch [47/50], Loss: 0.1643
+Iteration 3: Epoch [48/50], Loss: 0.1604
+Iteration 3: Epoch [49/50], Loss: 0.1561
+Iteration 3: Epoch [50/50], Loss: 0.1537
+Loss on Last Iteration for Training is 120.16651132889092
+
+Iteration 3: Testing on Test Set
+Accuracy: 0.8306
+Precision: 0.8391
+Recall: 0.8306
+F1 Score: 0.8323
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.85      0.85      0.85      1000
+           1       0.91      0.93      0.92      1000
+           2       0.83      0.72      0.77      1000
+           3       0.59      0.80      0.68      1000
+           4       0.83      0.78      0.80      1000
+           5       0.80      0.71      0.75      1000
+           6       0.91      0.83      0.87      1000
+           7       0.88      0.86      0.87      1000
+           8       0.89      0.92      0.90      1000
+           9       0.90      0.91      0.90      1000
+
+    accuracy                           0.83     10000
+   macro avg       0.84      0.83      0.83     10000
+weighted avg       0.84      0.83      0.83     10000
+
+Iteration 4: Epoch [1/50], Loss: 1.9467
+Iteration 4: Epoch [2/50], Loss: 1.4887
+Iteration 4: Epoch [3/50], Loss: 1.2682
+Iteration 4: Epoch [4/50], Loss: 1.0825
+Iteration 4: Epoch [5/50], Loss: 0.9379
+Iteration 4: Epoch [6/50], Loss: 0.8330
+Iteration 4: Epoch [7/50], Loss: 0.7599
+Iteration 4: Epoch [8/50], Loss: 0.6931
+Iteration 4: Epoch [9/50], Loss: 0.6391
+Iteration 4: Epoch [10/50], Loss: 0.5871
+Iteration 4: Epoch [11/50], Loss: 0.5490
+Iteration 4: Epoch [12/50], Loss: 0.5086
+Iteration 4: Epoch [13/50], Loss: 0.4796
+Iteration 4: Epoch [14/50], Loss: 0.4407
+Iteration 4: Epoch [15/50], Loss: 0.4187
+Iteration 4: Epoch [16/50], Loss: 0.3957
+Iteration 4: Epoch [17/50], Loss: 0.3692
+Iteration 4: Epoch [18/50], Loss: 0.3511
+Iteration 4: Epoch [19/50], Loss: 0.3352
+Iteration 4: Epoch [20/50], Loss: 0.3228
+Iteration 4: Epoch [21/50], Loss: 0.3077
+Iteration 4: Epoch [22/50], Loss: 0.2913
+Iteration 4: Epoch [23/50], Loss: 0.2753
+Iteration 4: Epoch [24/50], Loss: 0.2647
+Iteration 4: Epoch [25/50], Loss: 0.2537
+Iteration 4: Epoch [26/50], Loss: 0.2423
+Iteration 4: Epoch [27/50], Loss: 0.2368
+Iteration 4: Epoch [28/50], Loss: 0.2283
+Iteration 4: Epoch [29/50], Loss: 0.2194
+Iteration 4: Epoch [30/50], Loss: 0.2133
+Iteration 4: Epoch [31/50], Loss: 0.2067
+Iteration 4: Epoch [32/50], Loss: 0.2040
+Iteration 4: Epoch [33/50], Loss: 0.1936
+Iteration 4: Epoch [34/50], Loss: 0.1938
+Iteration 4: Epoch [35/50], Loss: 0.1837
+Iteration 4: Epoch [36/50], Loss: 0.1789
+Iteration 4: Epoch [37/50], Loss: 0.1801
+Iteration 4: Epoch [38/50], Loss: 0.1744
+Iteration 4: Epoch [39/50], Loss: 0.1663
+Iteration 4: Epoch [40/50], Loss: 0.1669
+Iteration 4: Epoch [41/50], Loss: 0.1654
+Iteration 4: Epoch [42/50], Loss: 0.1574
+Iteration 4: Epoch [43/50], Loss: 0.1559
+Iteration 4: Epoch [44/50], Loss: 0.1545
+Iteration 4: Epoch [45/50], Loss: 0.1537
+Iteration 4: Epoch [46/50], Loss: 0.1487
+Iteration 4: Epoch [47/50], Loss: 0.1451
+Iteration 4: Epoch [48/50], Loss: 0.1440
+Iteration 4: Epoch [49/50], Loss: 0.1440
+Iteration 4: Epoch [50/50], Loss: 0.1438
+Loss on Last Iteration for Training is 112.4351556468755
+
+Iteration 4: Testing on Test Set
+Accuracy: 0.8361
+Precision: 0.8439
+Recall: 0.8361
+F1 Score: 0.8375
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.86      0.86      0.86      1000
+           1       0.89      0.94      0.91      1000
+           2       0.87      0.69      0.77      1000
+           3       0.63      0.77      0.69      1000
+           4       0.76      0.87      0.81      1000
+           5       0.78      0.76      0.77      1000
+           6       0.90      0.85      0.87      1000
+           7       0.90      0.87      0.89      1000
+           8       0.96      0.87      0.91      1000
+           9       0.90      0.89      0.89      1000
+
+    accuracy                           0.84     10000
+   macro avg       0.84      0.84      0.84     10000
+weighted avg       0.84      0.84      0.84     10000
+
+Iteration 5: Epoch [1/50], Loss: 2.0469
+Iteration 5: Epoch [2/50], Loss: 1.5929
+Iteration 5: Epoch [3/50], Loss: 1.3522
+Iteration 5: Epoch [4/50], Loss: 1.1470
+Iteration 5: Epoch [5/50], Loss: 0.9807
+Iteration 5: Epoch [6/50], Loss: 0.8608
+Iteration 5: Epoch [7/50], Loss: 0.7663
+Iteration 5: Epoch [8/50], Loss: 0.6952
+Iteration 5: Epoch [9/50], Loss: 0.6291
+Iteration 5: Epoch [10/50], Loss: 0.5762
+Iteration 5: Epoch [11/50], Loss: 0.5247
+Iteration 5: Epoch [12/50], Loss: 0.4857
+Iteration 5: Epoch [13/50], Loss: 0.4459
+Iteration 5: Epoch [14/50], Loss: 0.4064
+Iteration 5: Epoch [15/50], Loss: 0.3756
+Iteration 5: Epoch [16/50], Loss: 0.3425
+Iteration 5: Epoch [17/50], Loss: 0.3119
+Iteration 5: Epoch [18/50], Loss: 0.2874
+Iteration 5: Epoch [19/50], Loss: 0.2708
+Iteration 5: Epoch [20/50], Loss: 0.2470
+Iteration 5: Epoch [21/50], Loss: 0.2297
+Iteration 5: Epoch [22/50], Loss: 0.2088
+Iteration 5: Epoch [23/50], Loss: 0.1947
+Iteration 5: Epoch [24/50], Loss: 0.1842
+Iteration 5: Epoch [25/50], Loss: 0.1677
+Iteration 5: Epoch [26/50], Loss: 0.1526
+Iteration 5: Epoch [27/50], Loss: 0.1493
+Iteration 5: Epoch [28/50], Loss: 0.1364
+Iteration 5: Epoch [29/50], Loss: 0.1253
+Iteration 5: Epoch [30/50], Loss: 0.1189
+Iteration 5: Epoch [31/50], Loss: 0.1184
+Iteration 5: Epoch [32/50], Loss: 0.1069
+Iteration 5: Epoch [33/50], Loss: 0.1063
+Iteration 5: Epoch [34/50], Loss: 0.1052
+Iteration 5: Epoch [35/50], Loss: 0.0891
+Iteration 5: Epoch [36/50], Loss: 0.0921
+Iteration 5: Epoch [37/50], Loss: 0.0868
+Iteration 5: Epoch [38/50], Loss: 0.0843
+Iteration 5: Epoch [39/50], Loss: 0.0807
+Iteration 5: Epoch [40/50], Loss: 0.0744
+Iteration 5: Epoch [41/50], Loss: 0.0754
+Iteration 5: Epoch [42/50], Loss: 0.0743
+Iteration 5: Epoch [43/50], Loss: 0.0732
+Iteration 5: Epoch [44/50], Loss: 0.0694
+Iteration 5: Epoch [45/50], Loss: 0.0733
+Iteration 5: Epoch [46/50], Loss: 0.0607
+Iteration 5: Epoch [47/50], Loss: 0.0624
+Iteration 5: Epoch [48/50], Loss: 0.0577
+Iteration 5: Epoch [49/50], Loss: 0.0603
+Iteration 5: Epoch [50/50], Loss: 0.0558
+Loss on Last Iteration for Training is 43.64046486164443
+
+Iteration 5: Testing on Test Set
+Accuracy: 0.8579
+Precision: 0.8596
+Recall: 0.8579
+F1 Score: 0.8577
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.81      0.92      0.86      1000
+           1       0.94      0.92      0.93      1000
+           2       0.79      0.81      0.80      1000
+           3       0.77      0.70      0.73      1000
+           4       0.88      0.80      0.84      1000
+           5       0.76      0.84      0.80      1000
+           6       0.89      0.91      0.90      1000
+           7       0.92      0.86      0.89      1000
+           8       0.90      0.93      0.91      1000
+           9       0.93      0.91      0.92      1000
+
+    accuracy                           0.86     10000
+   macro avg       0.86      0.86      0.86     10000
+weighted avg       0.86      0.86      0.86     10000
+
+Overlap Table
+
+Weaker 0 and Stronger 1
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           77.87                    94.43                    
+1           97.49                    93.64                    
+2           84.98                    82.02                    
+3           63.37                    88.91                    
+4           81.15                    85.57                    
+5           79.75                    85.53                    
+6           92.8                     88.62                    
+7           93.68                    87.32                    
+8           88.01                    97.35                    
+9           79.37                    95.09                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 84.32
+% Stronger of Weaker Total: 90.14
+
+Weaker 0 and Stronger 2
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           76.03                    94.87                    
+1           93.88                    95.83                    
+2           80.22                    87.01                    
+3           55.08                    93.6                     
+4           77.71                    88.81                    
+5           73.84                    86.35                    
+6           88.26                    92.12                    
+7           86.71                    95.26                    
+8           83.77                    97.73                    
+9           74.7                     97.69                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 79.4
+% Stronger of Weaker Total: 93.19
+
+Weaker 0 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           76.07                    96.48                    
+1           94.13                    96.71                    
+2           80.49                    83.53                    
+3           56.49                    92.75                    
+4           73.44                    93.67                    
+5           71.07                    89.31                    
+6           87.35                    92.38                    
+7           85.25                    94.75                    
+8           85.86                    94.32                    
+9           75.79                    97.25                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 79.01
+% Stronger of Weaker Total: 93.34
+
+Weaker 0 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           72.36                    97.51                    
+1           93.78                    94.3                     
+2           74.97                    91.39                    
+3           57.25                    85.07                    
+4           75.12                    88.51                    
+5           67.14                    93.09                    
+6           84.77                    96.0                     
+7           85.18                    93.47                    
+8           83.06                    97.22                    
+9           73.51                    96.24                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 77.28
+% Stronger of Weaker Total: 93.68
+
+Weaker 1 and Stronger 2
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           91.19                    93.83                    
+1           91.73                    97.49                    
+2           79.81                    89.67                    
+3           74.91                    90.73                    
+4           83.51                    90.5                     
+5           82.14                    89.57                    
+6           86.11                    94.11                    
+7           82.17                    96.84                    
+8           91.99                    97.03                    
+9           88.84                    96.98                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 85.6
+% Stronger of Weaker Total: 93.99
+
+Weaker 1 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           89.6                     93.71                    
+1           90.93                    97.26                    
+2           81.37                    87.48                    
+3           75.32                    88.15                    
+4           78.98                    95.53                    
+5           77.49                    90.8                     
+6           85.82                    95.03                    
+7           81.34                    96.98                    
+8           93.45                    92.81                    
+9           89.3                     95.66                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 84.68
+% Stronger of Weaker Total: 93.59
+
+Weaker 1 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           86.62                    96.25                    
+1           91.6                     95.89                    
+2           73.36                    92.64                    
+3           76.47                    81.0                     
+4           79.75                    89.11                    
+5           73.19                    94.63                    
+6           81.9                     97.12                    
+7           80.63                    94.92                    
+8           90.94                    96.23                    
+9           87.75                    95.9                     
+--------------------------------------------------------------
+% Weaker of Stronger Total: 82.61
+% Stronger of Weaker Total: 93.68
+
+Weaker 2 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           92.72                    94.24                    
+1           97.01                    97.64                    
+2           90.54                    86.63                    
+3           92.21                    89.08                    
+4           86.37                    96.39                    
+5           85.21                    91.56                    
+6           92.2                     93.41                    
+7           94.01                    95.1                     
+8           98.16                    92.42                    
+9           96.73                    94.92                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 92.7
+% Stronger of Weaker Total: 93.32
+
+Weaker 2 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           89.77                    96.94                    
+1           97.16                    95.7                     
+2           83.89                    94.29                    
+3           91.97                    80.43                    
+4           87.38                    90.08                    
+5           79.48                    94.23                    
+6           89.4                     97.01                    
+7           93.47                    93.36                    
+8           96.33                    96.65                    
+9           96.25                    96.35                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 90.67
+% Stronger of Weaker Total: 93.66
+
+Weaker 3 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           90.75                    96.42                    
+1           97.71                    95.62                    
+2           79.93                    93.89                    
+3           90.67                    82.08                    
+4           94.5                     87.3                     
+5           85.05                    93.85                    
+6           90.18                    96.57                    
+7           94.4                     93.2                     
+8           91.48                    97.47                    
+9           94.59                    96.51                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 91.05
+% Stronger of Weaker Total: 93.42
+

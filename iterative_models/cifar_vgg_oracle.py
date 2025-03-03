@@ -121,26 +121,27 @@ def test_model(model, device):
     print_write("\nClassification Report:\n")
     print_write(class_report)
 
-def compare_overlap():
+def get_oracle_percentages():
     global correct_labels
     num_models = len(predictions)
-
-    correct_counts = {}
-
+    
     print_write("Overlap Table\n")
 
     col_width1 = 12
     col_width2 = 25
     col_width3 = 25
 
-    
+    oracle_percentages = {}
 
     for w in range(num_models):
         for s in range(w + 1, num_models):
             print_write(f"Weaker {w} and Stronger {s}")
             print_write(f"{"Label":<{col_width1}}{"% Weaker of Stronger":<{col_width2}}{"% Stronger of Weaker":<{col_width3}}")
             print_write("-" * (col_width1 + col_width2 + col_width3))
-            for i in range(1, 11):
+            
+            percent_comparison = []
+
+            for i in range(10):
                 total_correct_strong = np.count_nonzero((correct_labels == i) & (predictions[s] == correct_labels))
                 total_correct_weak = np.count_nonzero((correct_labels == i) & (predictions[w] == correct_labels))
                 total_correct_both = np.count_nonzero((correct_labels == i) & (predictions[w] == correct_labels) & (predictions[s] == correct_labels))
@@ -149,6 +150,7 @@ def compare_overlap():
                     percent_weaker_of_stronger = 0
                 else:
                     percent_weaker_of_stronger = round((total_correct_both / total_correct_strong) * 100, 2)
+                    percent_comparison.append(percent_weaker_of_stronger)
                 if total_correct_weak == 0:
                     percent_stronger_of_weaker = 0
                 else:
@@ -156,6 +158,8 @@ def compare_overlap():
                 print_write(f"{i:<{col_width1}}{percent_weaker_of_stronger:<{col_width2}}{percent_stronger_of_weaker:<{col_width3}}")
             print_write("-" * (col_width1 + col_width2 + col_width3))
             
+            oracle_percentages[(w, s)] = percent_comparison
+
             total_correct_strong = np.count_nonzero(predictions[s] == correct_labels)
             total_correct_weak = np.count_nonzero(predictions[w] == correct_labels)
             total_correct_both = np.count_nonzero((predictions[w] == correct_labels) & (predictions[s] == correct_labels))
@@ -171,15 +175,22 @@ def compare_overlap():
             print_write(f"% Weaker of Stronger Total: {percent_weaker_of_stronger}")
             print_write(f"% Stronger of Weaker Total: {percent_stronger_of_weaker}")
             print_write("")
-        
+
+    return oracle_percentages
+
+def test_oracle(oracle_percentages):
+
+
+
 def setup():
-    train_dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
+    train_dataset, oracle_train_dataset = torch.utils.data.random_split(train_dataset, [0.8, 0.2])
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+    oracle_train_loader = torch.utils.data.DataLoader(oracle_train_dataset, batch_size=64, shuffle=False)
 
     test_dataset = datasets.CIFAR10(root="../data", train=False, download=True, transform=transform)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
 
-    return train_loader, test_loader
+    return train_loader, oracle_train_loader, test_loader
 
 def execute():
     if torch.cuda.is_available():
@@ -190,7 +201,8 @@ def execute():
             print_write(f"\nIteration {iteration}: Testing on Test Set")
             test_model(model, gpu_device, description=f"Testing Iteration {iteration}")
         
-        compare_overlap()
+        oracle_percentages = get_oracle_percentages()
+        test_oracle(oracle_percentages)
     else:
         print("GPU not available.")
 
@@ -220,9 +232,9 @@ if __name__ == "__main__":
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
 
-    args = get_args(epoch=True)
+    args = get_args(epoch=True, acc_sac=True)
     num_epochs = args.epochs
-    train_loader, test_loader = setup()
-    f = write_file("iterative_models")
+    train_loader, oracle_train_loader, test_loader = setup()
+    f = write_file("oracle_model")
     f.write("Using VGG Model\n")
     execute()

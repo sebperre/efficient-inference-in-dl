@@ -56,7 +56,7 @@ def print_write(text):
     print(text)
     FILE.write(f"{text}\n")
 
-def get_args(epoch: bool = False, subset: bool = False, epoch_default: int = 50, subset_default: int = 1000):
+def get_args(epoch: bool = False, subset: bool = False, acc_sac: bool = False, epoch_default: int = 50, subset_default: int = 1000, acc_sac_default: float = 0.1):
     """
     Parse command-line arguments and return them.
     """
@@ -66,6 +66,8 @@ def get_args(epoch: bool = False, subset: bool = False, epoch_default: int = 50,
         parser.add_argument("--epochs", type=int, default=epoch_default, help="Number of epochs for training (default: 10)")
     if subset:
         parser.add_argument("--subset", type=int, default=subset_default, help="Size of the training subset (default: 100)")
+    if acc_sac:
+        parser.add_argument("--acc_sac", type=float, default=acc_sac_default, help="Accuracy Sacriface")
 
     return parser.parse_args()
 
