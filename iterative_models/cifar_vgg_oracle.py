@@ -6,6 +6,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import numpy as np
 import math
 import sys
+import time
 
 sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 from file_utils import write_file, print_write, get_args, timer
@@ -88,7 +89,7 @@ def train_model(device, num_epochs, iteration):
     return model
 
 @timer
-def test_model(model, device):
+def train_oracle_model(model, device):
     global correct_labels
     model.eval()
     all_preds = []
@@ -178,12 +179,84 @@ def get_oracle_percentages():
 
     return oracle_percentages
 
-def test_oracle(oracle_percentages):
+@timer
+def test_combined_model(models, model_association, device):
+    all_preds = []
+    all_labels = []
 
+    start_time = time.time()
+    with torch.no_grad():
+        for inputs, labels in test_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
+            for input, label in zip(inputs, labels):
+                print(label.cpu().numpy())
+                output = models[model_association[int(label.cpu().numpy())]](input)
+                _, pred = torch.max(output, 1)
 
+                all_preds.extend(pred.cpu().numpy())
+                all_labels.extend(label.cpu().numpy())
+    end_time = time.time()
+
+    return all_labels, all_preds, end_time - start_time
+
+def test_best_model(model, device):
+    model.eval()
+    all_preds = []
+    all_labels = []
+
+    start_time = time.time()
+    with torch.no_grad():
+        for inputs, labels in test_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
+            for input, label in zip(inputs, labels):
+                output = model(input)
+                _, pred = torch.max(output, 1)
+
+                all_preds.extend(pred.cpu().numpy())
+                all_labels.extend(label.cpu().numpy())
+    end_time = time.time()
+
+    return all_labels, all_preds, end_time - start_time
+
+def compare_models(combined_all_labels, combined_all_preds, combined_time, best_all_labels, best_all_preds, best_model_time):
+    print_write("Model Comparison\n")
+
+    col_width1 = 12
+    col_width2 = 25
+    col_width3 = 25
+    col_width4 = 25
+
+    accuracy_best = accuracy_score(best_all_labels, best_all_preds)
+    precision_best = precision_score(best_all_labels, best_all_preds, average="weighted")
+    recall_best = recall_score(best_all_labels, best_all_preds, average="weighted")
+    f1_best = f1_score(best_all_labels, best_all_preds, average="weighted")
+    class_report_best = classification_report(best_all_labels, best_all_preds)
+
+    accuracy_combined = accuracy_score(combined_all_labels, combined_all_preds)
+    precision_combined = precision_score(combined_all_labels, combined_all_preds, average="weighted")
+    recall_combined = recall_score(combined_all_labels, combined_all_preds, average="weighted")
+    f1_combined = f1_score(combined_all_labels, combined_all_preds, average="weighted")
+    class_report_combined = classification_report(combined_all_labels, combined_all_preds)
+
+    print_write(f"{"Statistic":<{col_width1}}{"Best":<{col_width2}}{"Combined":<{col_width3}}{"Difference":<{col_width4}}")
+    print_write("-" * (col_width1 + col_width2 + col_width3 + col_width4))
+    print_write(f"{"Accuracy":<{col_width1}}{accuracy_best:<{col_width2}}{accuracy_combined:<{col_width3}}{accuracy_best - accuracy_combined:<{col_width4}}")
+    print_write(f"{"Precision":<{col_width1}}{precision_best:<{col_width2}}{precision_combined:<{col_width3}}{precision_best - precision_combined:<{col_width4}}")
+    print_write(f"{"Recall":<{col_width1}}{recall_best:<{col_width2}}{recall_combined:<{col_width3}}{recall_best - recall_combined:<{col_width4}}")
+    print_write(f"{"F1":<{col_width1}}{f1_best:<{col_width2}}{f1_combined:<{col_width3}}{f1_best - f1_combined:<{col_width4}}")
+    print_write(f"{"Time":<{col_width1}}{best_model_time:<{col_width2}}{combined_time:<{col_width3}}{best_model_time - combined_time:<{col_width4}}")
+    print_write("-" * (col_width1 + col_width2 + col_width3 + col_width4))
+
+    print_write("")
+    print_write("Best Model Class Report")
+    print_write(class_report_best)
+
+    print_write("")
+    print_write(class_report_combined)
 
 def setup():
-    train_dataset, oracle_train_dataset = torch.utils.data.random_split(train_dataset, [0.8, 0.2])
+    dataset = datasets.CIFAR10(root="../data", train=True, download=True, transform=transform)
+    train_dataset, oracle_train_dataset = torch.utils.data.random_split(dataset, [0.8, 0.2])
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
     oracle_train_loader = torch.utils.data.DataLoader(oracle_train_dataset, batch_size=64, shuffle=False)
 
@@ -195,14 +268,32 @@ def setup():
 def execute():
     if torch.cuda.is_available():
         print("Training on GPU...")
+        models = {}
         gpu_device = torch.device("cuda")
         for iteration in range(1, iterations + 1):
             model = train_model(gpu_device, num_epochs, iteration, description=f"Training Iteration {iteration}")
+            models[iteration - 1] = model
             print_write(f"\nIteration {iteration}: Testing on Test Set")
-            test_model(model, gpu_device, description=f"Testing Iteration {iteration}")
+            train_oracle_model(model, gpu_device, description=f"Testing Iteration {iteration}")
         
         oracle_percentages = get_oracle_percentages()
-        test_oracle(oracle_percentages)
+        oracles_for_testing = {(x, 4): oracle_percentages[(x, 4)] for x in range(4)}
+
+        model_association = {}
+        for i in range(10):
+            model_association[i] = 4
+            for j in range(4):
+                if oracles_for_testing[(j, 4)][i] >= (1 - acc_sac) * 100:
+                    model_association[i] = j
+                    break
+
+        for model in models.values():
+            model.eval()
+
+        combined_all_labels, combined_all_preds, combined_time = test_combined_model(models, model_association, gpu_device, description=f"Testing Oracle")
+        best_all_labels, best_all_preds, best_model_time = test_best_model(model, gpu_device, description=f"Testing Best Model")
+
+        compare_models(combined_all_labels, combined_all_preds, combined_time, best_all_labels, best_all_preds, best_model_time)
     else:
         print("GPU not available.")
 
@@ -223,7 +314,7 @@ if __name__ == "__main__":
         5: 4096
     }
 
-    iterations = len(depth_connections)
+    iterations = len(layer_configs)
 
     predictions = []
     correct_labels = None
@@ -234,6 +325,7 @@ if __name__ == "__main__":
 
     args = get_args(epoch=True, acc_sac=True)
     num_epochs = args.epochs
+    acc_sac = args.acc_sac
     train_loader, oracle_train_loader, test_loader = setup()
     f = write_file("oracle_model")
     f.write("Using VGG Model\n")
