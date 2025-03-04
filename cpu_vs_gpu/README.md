@@ -1,3 +1,10 @@
 # Testing CPU vs GPU
 
-Done Refactor
+### cifar.py
+
+Tests my CPU vs GPU power on CIFAR-10.
+
+### imagenet.py
+
+Tests my CPU vs GPU power on ImageNet.
+
