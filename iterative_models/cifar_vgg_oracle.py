@@ -190,15 +190,17 @@ def test_combined_model(models, model_association, device):
             inputs, labels = inputs.to(device), labels.to(device)
             for input, label in zip(inputs, labels):
                 print(label.cpu().numpy())
-                output = models[model_association[int(label.cpu().numpy())]](input)
+                output = models[model_association[int(label.cpu().numpy())]](torch.unsqueeze(input, 0))
+                print("after")
                 _, pred = torch.max(output, 1)
 
-                all_preds.extend(pred.cpu().numpy())
-                all_labels.extend(label.cpu().numpy())
+                all_preds.append(int(pred.cpu().numpy()))
+                all_labels.append(int(label.cpu().numpy()))
     end_time = time.time()
 
     return all_labels, all_preds, end_time - start_time
 
+@timer
 def test_best_model(model, device):
     model.eval()
     all_preds = []
@@ -209,11 +211,11 @@ def test_best_model(model, device):
         for inputs, labels in test_loader:
             inputs, labels = inputs.to(device), labels.to(device)
             for input, label in zip(inputs, labels):
-                output = model(input)
+                output = model(torch.unsqueeze(input, 0))
                 _, pred = torch.max(output, 1)
 
-                all_preds.extend(pred.cpu().numpy())
-                all_labels.extend(label.cpu().numpy())
+                all_preds.append(int(pred.cpu().numpy()))
+                all_labels.append(int(label.cpu().numpy()))
     end_time = time.time()
 
     return all_labels, all_preds, end_time - start_time
