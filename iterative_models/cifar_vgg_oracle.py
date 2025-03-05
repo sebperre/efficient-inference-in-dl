@@ -189,9 +189,7 @@ def test_combined_model(models, model_association, device):
         for inputs, labels in test_loader:
             inputs, labels = inputs.to(device), labels.to(device)
             for input, label in zip(inputs, labels):
-                print(label.cpu().numpy())
                 output = models[model_association[int(label.cpu().numpy())]](torch.unsqueeze(input, 0))
-                print("after")
                 _, pred = torch.max(output, 1)
 
                 all_preds.append(int(pred.cpu().numpy()))
@@ -223,30 +221,30 @@ def test_best_model(model, device):
 def compare_models(combined_all_labels, combined_all_preds, combined_time, best_all_labels, best_all_preds, best_model_time):
     print_write("Model Comparison\n")
 
-    col_width1 = 12
+    col_width1 = 20
     col_width2 = 25
     col_width3 = 25
     col_width4 = 25
 
-    accuracy_best = accuracy_score(best_all_labels, best_all_preds)
-    precision_best = precision_score(best_all_labels, best_all_preds, average="weighted")
-    recall_best = recall_score(best_all_labels, best_all_preds, average="weighted")
-    f1_best = f1_score(best_all_labels, best_all_preds, average="weighted")
+    accuracy_best = round(accuracy_score(best_all_labels, best_all_preds) * 100, 4)
+    precision_best = round(precision_score(best_all_labels, best_all_preds, average="weighted") * 100, 4)
+    recall_best = round(recall_score(best_all_labels, best_all_preds, average="weighted") * 100, 4)
+    f1_best = round(f1_score(best_all_labels, best_all_preds, average="weighted") * 100, 4)
     class_report_best = classification_report(best_all_labels, best_all_preds)
 
-    accuracy_combined = accuracy_score(combined_all_labels, combined_all_preds)
-    precision_combined = precision_score(combined_all_labels, combined_all_preds, average="weighted")
-    recall_combined = recall_score(combined_all_labels, combined_all_preds, average="weighted")
-    f1_combined = f1_score(combined_all_labels, combined_all_preds, average="weighted")
+    accuracy_combined = round(accuracy_score(combined_all_labels, combined_all_preds) * 100, 4)
+    precision_combined = round(precision_score(combined_all_labels, combined_all_preds, average="weighted") * 100, 4)
+    recall_combined = round(recall_score(combined_all_labels, combined_all_preds, average="weighted") * 100, 4)
+    f1_combined = round(f1_score(combined_all_labels, combined_all_preds, average="weighted") * 100, 4)
     class_report_combined = classification_report(combined_all_labels, combined_all_preds)
 
     print_write(f"{"Statistic":<{col_width1}}{"Best":<{col_width2}}{"Combined":<{col_width3}}{"Difference":<{col_width4}}")
     print_write("-" * (col_width1 + col_width2 + col_width3 + col_width4))
-    print_write(f"{"Accuracy":<{col_width1}}{accuracy_best:<{col_width2}}{accuracy_combined:<{col_width3}}{accuracy_best - accuracy_combined:<{col_width4}}")
-    print_write(f"{"Precision":<{col_width1}}{precision_best:<{col_width2}}{precision_combined:<{col_width3}}{precision_best - precision_combined:<{col_width4}}")
-    print_write(f"{"Recall":<{col_width1}}{recall_best:<{col_width2}}{recall_combined:<{col_width3}}{recall_best - recall_combined:<{col_width4}}")
-    print_write(f"{"F1":<{col_width1}}{f1_best:<{col_width2}}{f1_combined:<{col_width3}}{f1_best - f1_combined:<{col_width4}}")
-    print_write(f"{"Time":<{col_width1}}{best_model_time:<{col_width2}}{combined_time:<{col_width3}}{best_model_time - combined_time:<{col_width4}}")
+    print_write(f"{"Accuracy (%)":<{col_width1}}{accuracy_best:<{col_width2}}{accuracy_combined:<{col_width3}}{round(accuracy_best - accuracy_combined, 4):<{col_width4}}")
+    print_write(f"{"Precision (%)":<{col_width1}}{precision_best:<{col_width2}}{precision_combined:<{col_width3}}{round(precision_best - precision_combined, 4):<{col_width4}}")
+    print_write(f"{"Recall (%)":<{col_width1}}{recall_best:<{col_width2}}{recall_combined:<{col_width3}}{round(recall_best - recall_combined, 4):<{col_width4}}")
+    print_write(f"{"F1 (%)":<{col_width1}}{f1_best:<{col_width2}}{f1_combined:<{col_width3}}{round(f1_best - f1_combined, 4):<{col_width4}}")
+    print_write(f"{"Time (s)":<{col_width1}}{round(best_model_time, 4):<{col_width2}}{round(combined_time, 4):<{col_width3}}{round(best_model_time - combined_time, 4):<{col_width4}}")
     print_write("-" * (col_width1 + col_width2 + col_width3 + col_width4))
 
     print_write("")
@@ -254,6 +252,7 @@ def compare_models(combined_all_labels, combined_all_preds, combined_time, best_
     print_write(class_report_best)
 
     print_write("")
+    print_write("Combined Model Class Report")
     print_write(class_report_combined)
 
 def setup():
