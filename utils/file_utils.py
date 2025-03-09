@@ -56,7 +56,16 @@ def print_write(text):
     print(text)
     FILE.write(f"{text}\n")
 
-def get_args(epoch: bool = False, subset: bool = False, acc_sac: bool = False, batch_size: bool = False, epoch_default: int = 50, subset_default: int = 1000, acc_sac_default: float = 0.1, batch_size_default: int = 20):
+def get_args(epoch: bool = False, 
+             subset: bool = False, 
+             acc_sac: bool = False, 
+             batch_size: bool = False,
+             model_classifier_epoch: bool = False, 
+             epoch_default: int = 50, 
+             subset_default: int = 1000, 
+             acc_sac_default: float = 0.1, 
+             batch_size_default: int = 20,
+             model_classifier_epoch_default: int = 15):
     """
     Parse command-line arguments and return them.
     """
@@ -69,7 +78,9 @@ def get_args(epoch: bool = False, subset: bool = False, acc_sac: bool = False, b
     if acc_sac:
         parser.add_argument("--acc_sac", type=float, default=acc_sac_default, help="Accuracy Sacriface for the combined model (default: 0.1)")
     if batch_size:
-        parser.add_argument("--batch_size", type=int, default=batch_size, help="Batch Size for training (default: 20)")
+        parser.add_argument("--batch_size", type=int, default=batch_size_default, help="Batch Size for training (default: 20)")
+    if model_classifier_epoch:
+        parser.add_argument("--model_classifier_epochs", type=int, default=model_classifier_epoch_default, help="Number of epochs for training the model classifier (default: 15)")
 
     return parser.parse_args()
 
