@@ -86,6 +86,6 @@ if __name__ == "__main__":
     args = get_args(epoch=True)
     num_epochs = args.epochs
     train_loader = setup()
-    f = write_file("cpu_vs_gpu")
+    f, _ = write_file("cpu_vs_gpu")
     f.write("Using Simple CNN Model\n")
     execute(description="CPU and GPU on CIFAR with a Simple CNN model")

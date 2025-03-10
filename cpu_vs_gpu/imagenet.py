@@ -90,6 +90,6 @@ if __name__ == "__main__":
     num_epochs = args.epochs
     subset_size = args.subset
     train_loader = setup()
-    f = write_file("cpu_vs_gpu")
+    f, _ = write_file("cpu_vs_gpu")
     f.write("Using ResNet Model\n")
     execute(description="CPU and GPU on ImageNet with a ResNet model")

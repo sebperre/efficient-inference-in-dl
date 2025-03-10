@@ -40,12 +40,15 @@ def write_file(folder_name):
     """
     global FILE
     LOG_PATH = "/home/sebperre/programming-projects/efficient-inference-in-dl/logs"
+    sub_folder_name = datetime.datetime.now().strftime("%m-%d %H:%M")
     os.makedirs(LOG_PATH, exist_ok=True)
     os.makedirs(f"{LOG_PATH}/{folder_name}_{os.path.basename(sys.argv[0])[:-3]}", exist_ok=True)
-    f = open(f"{LOG_PATH}/{folder_name}_{os.path.basename(sys.argv[0])[:-3]}/{datetime.datetime.now().strftime("%m-%d %H:%M")}.txt", "w")
+    path = f"{LOG_PATH}/{folder_name}_{os.path.basename(sys.argv[0])[:-3]}/{sub_folder_name}"
+    os.makedirs(path, exist_ok=True)
+    f = open(f"{path}/log.txt", "w")
     f.write(f"{folder_name} {os.path.basename(sys.argv[0])}: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
     FILE = f
-    return f
+    return f, path
 
 def print_write(text):
     """

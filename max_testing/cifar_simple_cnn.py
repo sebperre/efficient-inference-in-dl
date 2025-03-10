@@ -104,6 +104,6 @@ if __name__ == "__main__":
     args = get_args(epoch=True)
     num_epochs = args.epochs
     train_loader, test_loader = setup()
-    f = write_file("max_testing")
+    f, _ = write_file("max_testing")
     f.write("Using Simple CNN Model\n")
     execute()
