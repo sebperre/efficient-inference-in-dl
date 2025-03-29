@@ -196,8 +196,8 @@ def get_oracle_percentages():
             heat_map_data_total[s, w] = percent_stronger_of_weaker
 
     for i, grid in heat_map_data_for_i.items():
-        plot_heat_map(grid, f"Heat Map: How much percent of x does y have for label {i}", f"{PATH}/heatmap_{i}")
-    plot_heat_map(grid, "Heat Map: How much percent of x does y in total", f"{PATH}/heatmap")
+        plot_heat_map(grid, f"Label {i} Prediction Overlap: % of Model X's Predictions Also Made by Model Y", f"{PATH}/heatmap_{i}")
+    plot_heat_map(grid, "Total Prediction Overlap: % of Model X's Predictions Also Made by Model Y", f"{PATH}/heatmap")
 
     return oracle_percentages
 
@@ -372,7 +372,7 @@ def execute():
         other_model_results = []
 
         for iteration in range(iterations - 1):
-            labels, preds, model_time = test_model(model, gpu_device, description=f"Testing Iteration {iteration}")
+            labels, preds, model_time = test_model(models[iteration], gpu_device, description=f"Testing Iteration {iteration}")
             test_times[iteration + 1] = model_time
             other_model_results.append([labels, preds, model_time])
 
