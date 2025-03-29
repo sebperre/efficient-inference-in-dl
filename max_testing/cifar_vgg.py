@@ -174,6 +174,5 @@ if __name__ == "__main__":
     args = get_args(epoch=True)
     num_epochs = args.epochs
     train_loader, test_loader = setup()
-    f, _ = write_file("max_testing")
-    f.write("Using VGG Model\n")
+    f, _ = write_file("max_testing", "CIFAR-10", "VGG-16", num_epochs)
     execute()

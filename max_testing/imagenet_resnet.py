@@ -109,6 +109,5 @@ if __name__ == "__main__":
     num_epochs = args.epochs
     subset_size = args.subset
     train_loader, test_loader = setup()
-    f, _ = write_file("max_testing")
-    f.write("Using ResNet Model\n")
+    f, _ = write_file("max_testing", "ImageNet", "Simple ResNet", num_epochs, subset_size)
     execute()
