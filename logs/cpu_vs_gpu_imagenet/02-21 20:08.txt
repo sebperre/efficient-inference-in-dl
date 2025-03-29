@@ -1,0 +1,2 @@
+cpu_vs_gpu imagenet.py: Ran at 2025/02/21, 20:08:03
+Running on 1 epoch(s) and 1000 images

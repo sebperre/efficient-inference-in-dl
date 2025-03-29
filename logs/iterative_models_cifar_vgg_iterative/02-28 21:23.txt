@@ -1,0 +1,149 @@
+iterative_models cifar_vgg_iterative.py: Ran at 2025/02/28, 21:23:19
+Using VGG Model
+Loss on Last Iteration for Training is 1399.43814432621
+[Timer] Training Iteration 1: Took 0h 0m 15s.
+
+Iteration 1: Testing on Test Set
+Accuracy: 0.4639
+Precision: 0.5057
+Recall: 0.4639
+F1 Score: 0.4592
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.50      0.60      0.54      1000
+           1       0.51      0.73      0.60      1000
+           2       0.30      0.50      0.37      1000
+           3       0.35      0.37      0.36      1000
+           4       0.36      0.40      0.38      1000
+           5       0.46      0.43      0.44      1000
+           6       0.66      0.30      0.41      1000
+           7       0.67      0.48      0.56      1000
+           8       0.55      0.61      0.58      1000
+           9       0.69      0.22      0.34      1000
+
+    accuracy                           0.46     10000
+   macro avg       0.51      0.46      0.46     10000
+weighted avg       0.51      0.46      0.46     10000
+
+[Timer] Testing Iteration 1: Took 0h 0m 2s.
+Loss on Last Iteration for Training is 1413.5233359336853
+[Timer] Training Iteration 2: Took 0h 0m 21s.
+
+Iteration 2: Testing on Test Set
+Accuracy: 0.4865
+Precision: 0.5156
+Recall: 0.4865
+F1 Score: 0.4875
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.55      0.42      0.47      1000
+           1       0.70      0.54      0.61      1000
+           2       0.29      0.52      0.37      1000
+           3       0.37      0.40      0.38      1000
+           4       0.45      0.27      0.34      1000
+           5       0.47      0.42      0.44      1000
+           6       0.60      0.51      0.55      1000
+           7       0.62      0.58      0.60      1000
+           8       0.47      0.77      0.58      1000
+           9       0.64      0.45      0.53      1000
+
+    accuracy                           0.49     10000
+   macro avg       0.52      0.49      0.49     10000
+weighted avg       0.52      0.49      0.49     10000
+
+[Timer] Testing Iteration 2: Took 0h 0m 2s.
+Loss on Last Iteration for Training is 1487.7162259817123
+[Timer] Training Iteration 3: Took 0h 0m 23s.
+
+Iteration 3: Testing on Test Set
+Accuracy: 0.4035
+Precision: 0.4378
+Recall: 0.4035
+F1 Score: 0.3787
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.32      0.60      0.41      1000
+           1       0.42      0.69      0.53      1000
+           2       0.33      0.20      0.25      1000
+           3       0.48      0.13      0.20      1000
+           4       0.43      0.28      0.34      1000
+           5       0.59      0.15      0.24      1000
+           6       0.47      0.50      0.48      1000
+           7       0.52      0.30      0.38      1000
+           8       0.49      0.55      0.52      1000
+           9       0.33      0.64      0.44      1000
+
+    accuracy                           0.40     10000
+   macro avg       0.44      0.40      0.38     10000
+weighted avg       0.44      0.40      0.38     10000
+
+[Timer] Testing Iteration 3: Took 0h 0m 3s.
+Loss on Last Iteration for Training is 1546.502972960472
+[Timer] Training Iteration 4: Took 0h 0m 31s.
+
+Iteration 4: Testing on Test Set
+Accuracy: 0.3888
+Precision: 0.3977
+Recall: 0.3888
+F1 Score: 0.3660
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.50      0.48      0.49      1000
+           1       0.46      0.68      0.55      1000
+           2       0.35      0.10      0.16      1000
+           3       0.29      0.16      0.21      1000
+           4       0.41      0.15      0.22      1000
+           5       0.29      0.52      0.37      1000
+           6       0.55      0.28      0.37      1000
+           7       0.36      0.54      0.43      1000
+           8       0.46      0.56      0.51      1000
+           9       0.31      0.41      0.36      1000
+
+    accuracy                           0.39     10000
+   macro avg       0.40      0.39      0.37     10000
+weighted avg       0.40      0.39      0.37     10000
+
+[Timer] Testing Iteration 4: Took 0h 0m 3s.
+Loss on Last Iteration for Training is 1633.1293457746506
+[Timer] Training Iteration 5: Took 0h 0m 36s.
+
+Iteration 5: Testing on Test Set
+Accuracy: 0.3239
+Precision: 0.3454
+Recall: 0.3239
+F1 Score: 0.3080
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.41      0.49      0.44      1000
+           1       0.61      0.31      0.41      1000
+           2       0.27      0.08      0.12      1000
+           3       0.22      0.04      0.07      1000
+           4       0.26      0.44      0.32      1000
+           5       0.31      0.29      0.30      1000
+           6       0.22      0.47      0.30      1000
+           7       0.35      0.35      0.35      1000
+           8       0.35      0.48      0.40      1000
+           9       0.47      0.29      0.36      1000
+
+    accuracy                           0.32     10000
+   macro avg       0.35      0.32      0.31     10000
+weighted avg       0.35      0.32      0.31     10000
+
+[Timer] Testing Iteration 5: Took 0h 0m 4s.
+Overlap:
+{(0, 1): np.float64(75.31346351490237), (0, 2): np.float64(70.26022304832715), (0, 3): np.float64(73.63683127572016), (0, 4): np.float64(65.63754245137387), (1, 2): np.float64(74.54770755885998), (1, 3): np.float64(72.7880658436214), (1, 4): np.float64(70.76258104353195), (2, 3): np.float64(70.83333333333334), (2, 4): np.float64(64.80395183698673), (3, 4): np.float64(62.828033343624575)}

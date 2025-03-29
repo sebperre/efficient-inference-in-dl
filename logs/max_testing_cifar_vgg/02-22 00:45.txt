@@ -1,0 +1,2 @@
+max_testing cifar_vgg.py: Ran at 2025/02/22, 00:45:54
+Using VGG Model

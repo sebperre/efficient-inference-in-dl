@@ -1,0 +1,6 @@
+cpu_vs_gpu imagenet.py: Ran at 2025/02/22, 14:39:05
+Using ResNet Model
+Running on 1 epoch(s) and 1000 images
+GPU Training Time: 70.08 seconds
+GPU Training Time: 9.80 seconds
+[Timer] CPU and GPU on ImageNet with a ResNet model: Took 0h 1m 20s.

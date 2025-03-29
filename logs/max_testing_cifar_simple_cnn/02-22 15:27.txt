@@ -1,0 +1,27 @@
+max_testing cifar_simple_cnn.py: Ran at 2025/02/22, 15:27:20
+Using Simple CNN Model
+[Timer] Training: Took 0h 0m 13s.
+Accuracy: 0.6327
+Precision: 0.6592
+Recall: 0.6327
+F1 Score: 0.6360
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.75      0.68      0.71      1000
+           1       0.81      0.70      0.75      1000
+           2       0.48      0.57      0.52      1000
+           3       0.42      0.56      0.48      1000
+           4       0.56      0.57      0.56      1000
+           5       0.65      0.45      0.53      1000
+           6       0.87      0.53      0.66      1000
+           7       0.58      0.80      0.67      1000
+           8       0.77      0.77      0.77      1000
+           9       0.72      0.69      0.71      1000
+
+    accuracy                           0.63     10000
+   macro avg       0.66      0.63      0.64     10000
+weighted avg       0.66      0.63      0.64     10000
+
+[Timer] Testing: Took 0h 0m 2s.

@@ -1,0 +1,3 @@
+max_testing cifar_simple_cnn.py: Ran at 2025/02/22, 00:32:36
+Using Simple CNN Model
+Took 0h 2m 13s time to train.

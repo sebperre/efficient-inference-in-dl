@@ -1,0 +1,6 @@
+cpu_vs_gpu cifar.py: Ran at 2025/02/22, 14:31:04
+Using Simple CNN Model
+Running on 1 epoch(s)
+CPU Training Time: 45.83 seconds
+GPU Training Time: 13.52 seconds
+Took 0h 0m 59s to cpu and gpu on CIFAR with a Simple CNN model.

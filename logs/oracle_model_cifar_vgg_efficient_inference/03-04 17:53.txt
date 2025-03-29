@@ -1,0 +1,319 @@
+oracle_model cifar_vgg_efficient_inference.py: Ran at 2025/03/04, 17:53:45
+Using VGG Model
+Loss on Last Iteration for Training is 0.0
+[Timer] Training Iteration 1: Took 0h 0m 0s.
+
+Iteration 1: Testing on Test Set
+Accuracy: 0.1028
+Precision: 0.0334
+Recall: 0.1028
+F1 Score: 0.0263
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.10      0.98      0.19      1000
+           1       0.11      0.01      0.02      1000
+           2       0.12      0.04      0.05      1000
+           3       0.00      0.00      0.00      1000
+           4       0.00      0.00      0.00      1000
+           5       0.00      0.00      0.00      1000
+           6       0.00      0.00      0.00      1000
+           7       0.00      0.00      0.00      1000
+           8       0.00      0.00      0.00      1000
+           9       0.00      0.00      0.00      1000
+
+    accuracy                           0.10     10000
+   macro avg       0.03      0.10      0.03     10000
+weighted avg       0.03      0.10      0.03     10000
+
+[Timer] Testing Iteration 1: Took 0h 0m 2s.
+Loss on Last Iteration for Training is 0.0
+[Timer] Training Iteration 2: Took 0h 0m 0s.
+
+Iteration 2: Testing on Test Set
+Accuracy: 0.1004
+Precision: 0.0231
+Recall: 0.1004
+F1 Score: 0.0297
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00      1000
+           1       0.04      0.00      0.00      1000
+           2       0.00      0.00      0.00      1000
+           3       0.00      0.00      0.00      1000
+           4       0.00      0.00      0.00      1000
+           5       0.00      0.00      0.00      1000
+           6       0.00      0.00      0.00      1000
+           7       0.08      0.16      0.11      1000
+           8       0.00      0.00      0.00      1000
+           9       0.10      0.84      0.19      1000
+
+    accuracy                           0.10     10000
+   macro avg       0.02      0.10      0.03     10000
+weighted avg       0.02      0.10      0.03     10000
+
+[Timer] Testing Iteration 2: Took 0h 0m 2s.
+Loss on Last Iteration for Training is 0.0
+[Timer] Training Iteration 3: Took 0h 0m 0s.
+
+Iteration 3: Testing on Test Set
+Accuracy: 0.1251
+Precision: 0.0285
+Recall: 0.1251
+F1 Score: 0.0436
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00      1000
+           1       0.00      0.00      0.00      1000
+           2       0.11      0.87      0.20      1000
+           3       0.00      0.00      0.00      1000
+           4       0.00      0.00      0.00      1000
+           5       0.00      0.00      0.00      1000
+           6       0.00      0.00      0.00      1000
+           7       0.00      0.00      0.00      1000
+           8       0.00      0.00      0.00      1000
+           9       0.17      0.38      0.24      1000
+
+    accuracy                           0.13     10000
+   macro avg       0.03      0.13      0.04     10000
+weighted avg       0.03      0.13      0.04     10000
+
+[Timer] Testing Iteration 3: Took 0h 0m 3s.
+Loss on Last Iteration for Training is 0.0
+[Timer] Training Iteration 4: Took 0h 0m 0s.
+
+Iteration 4: Testing on Test Set
+Accuracy: 0.0964
+Precision: 0.0487
+Recall: 0.0964
+F1 Score: 0.0241
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00      1000
+           1       0.00      0.00      0.00      1000
+           2       0.00      0.00      0.00      1000
+           3       0.00      0.00      0.00      1000
+           4       0.17      0.00      0.00      1000
+           5       0.10      0.92      0.18      1000
+           6       0.05      0.02      0.03      1000
+           7       0.08      0.01      0.02      1000
+           8       0.00      0.00      0.00      1000
+           9       0.09      0.00      0.01      1000
+
+    accuracy                           0.10     10000
+   macro avg       0.05      0.10      0.02     10000
+weighted avg       0.05      0.10      0.02     10000
+
+[Timer] Testing Iteration 4: Took 0h 0m 3s.
+Loss on Last Iteration for Training is 0.0
+[Timer] Training Iteration 5: Took 0h 0m 0s.
+
+Iteration 5: Testing on Test Set
+Accuracy: 0.1000
+Precision: 0.0100
+Recall: 0.1000
+F1 Score: 0.0182
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00      1000
+           1       0.00      0.00      0.00      1000
+           2       0.00      0.00      0.00      1000
+           3       0.00      0.00      0.00      1000
+           4       0.10      1.00      0.18      1000
+           5       0.00      0.00      0.00      1000
+           6       0.00      0.00      0.00      1000
+           7       0.00      0.00      0.00      1000
+           8       0.00      0.00      0.00      1000
+           9       0.00      0.00      0.00      1000
+
+    accuracy                           0.10     10000
+   macro avg       0.01      0.10      0.02     10000
+weighted avg       0.01      0.10      0.02     10000
+
+[Timer] Testing Iteration 5: Took 0h 0m 3s.
+Overlap Table
+
+Weaker 0 and Stronger 1
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0.0                      
+1           0.0                      0.0                      
+2           0                        0.0                      
+3           0                        0                        
+4           0                        0                        
+5           0                        0                        
+6           0                        0                        
+7           0.0                      0                        
+8           0                        0                        
+9           0.0                      0                        
+--------------------------------------------------------------
+% Weaker of Stronger Total: 0.0
+% Stronger of Weaker Total: 0.0
+
+Weaker 0 and Stronger 2
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0.0                      
+1           0                        0.0                      
+2           3.67                     91.43                    
+3           0                        0                        
+4           0                        0                        
+5           0                        0                        
+6           0                        0                        
+7           0                        0                        
+8           0                        0                        
+9           0.0                      0                        
+--------------------------------------------------------------
+% Weaker of Stronger Total: 2.56
+% Stronger of Weaker Total: 3.11
+
+Weaker 0 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0.0                      
+1           0                        0.0                      
+2           0                        0.0                      
+3           0                        0                        
+4           0.0                      0                        
+5           0.0                      0                        
+6           0.0                      0                        
+7           0.0                      0                        
+8           0                        0                        
+9           0.0                      0                        
+--------------------------------------------------------------
+% Weaker of Stronger Total: 0.0
+% Stronger of Weaker Total: 0.0
+
+Weaker 0 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0.0                      
+1           0                        0.0                      
+2           0                        0.0                      
+3           0                        0                        
+4           0.0                      0                        
+5           0                        0                        
+6           0                        0                        
+7           0                        0                        
+8           0                        0                        
+9           0                        0                        
+--------------------------------------------------------------
+% Weaker of Stronger Total: 0.0
+% Stronger of Weaker Total: 0.0
+
+Weaker 1 and Stronger 2
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0                        
+1           0                        0.0                      
+2           0.0                      0                        
+3           0                        0                        
+4           0                        0                        
+5           0                        0                        
+6           0                        0                        
+7           0                        0.0                      
+8           0                        0                        
+9           88.13                    39.53                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 26.7
+% Stronger of Weaker Total: 33.27
+
+Weaker 1 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0                        
+1           0                        0.0                      
+2           0                        0                        
+3           0                        0                        
+4           0.0                      0                        
+5           0.0                      0                        
+6           0.0                      0                        
+7           23.08                    1.9                      
+8           0                        0                        
+9           100.0                    0.36                     
+--------------------------------------------------------------
+% Weaker of Stronger Total: 0.62
+% Stronger of Weaker Total: 0.6
+
+Weaker 1 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0                        
+1           0                        0.0                      
+2           0                        0                        
+3           0                        0                        
+4           0.0                      0                        
+5           0                        0                        
+6           0                        0                        
+7           0                        0.0                      
+8           0                        0                        
+9           0                        0.0                      
+--------------------------------------------------------------
+% Weaker of Stronger Total: 0.0
+% Stronger of Weaker Total: 0.0
+
+Weaker 2 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0                        
+1           0                        0                        
+2           0                        0.0                      
+3           0                        0                        
+4           0.0                      0                        
+5           0.0                      0                        
+6           0.0                      0                        
+7           0.0                      0                        
+8           0                        0                        
+9           33.33                    0.26                     
+--------------------------------------------------------------
+% Weaker of Stronger Total: 0.1
+% Stronger of Weaker Total: 0.08
+
+Weaker 2 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0                        
+1           0                        0                        
+2           0                        0.0                      
+3           0                        0                        
+4           0.0                      0                        
+5           0                        0                        
+6           0                        0                        
+7           0                        0                        
+8           0                        0                        
+9           0                        0.0                      
+--------------------------------------------------------------
+% Weaker of Stronger Total: 0.0
+% Stronger of Weaker Total: 0.0
+
+Weaker 3 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           0                        0                        
+1           0                        0                        
+2           0                        0                        
+3           0                        0                        
+4           0.1                      100.0                    
+5           0                        0.0                      
+6           0                        0.0                      
+7           0                        0.0                      
+8           0                        0                        
+9           0                        0.0                      
+--------------------------------------------------------------
+% Weaker of Stronger Total: 0.1
+% Stronger of Weaker Total: 0.1
+

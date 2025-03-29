@@ -1,0 +1,32 @@
+Iterative Testing: Ran at 2025/02/20, 21:59:36
+Running on VGG Architecture and 5 epoch(s)
+
+Loss on Last Iteration for Training is 871.4318233728409
+GPU Training Time on Iteration 1: 0h 1m 19s
+Testing on Iteration 1
+Accuracy: 0.6148
+Precision: 0.6413
+Recall: 0.6148
+F1 Score: 0.6150
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.61      0.73      0.66      1000
+           1       0.77      0.76      0.76      1000
+           2       0.38      0.58      0.46      1000
+           3       0.49      0.25      0.33      1000
+           4       0.63      0.44      0.52      1000
+           5       0.44      0.71      0.54      1000
+           6       0.76      0.66      0.71      1000
+           7       0.76      0.65      0.70      1000
+           8       0.80      0.72      0.75      1000
+           9       0.78      0.65      0.71      1000
+
+    accuracy                           0.61     10000
+   macro avg       0.64      0.61      0.62     10000
+weighted avg       0.64      0.61      0.62     10000
+
+Loss on Last Iteration for Training is 760.6548408865929
+GPU Training Time on Iteration 2: 0h 1m 45s
+Testing on Iteration 2

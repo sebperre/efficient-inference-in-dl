@@ -1,0 +1,5 @@
+cpu_vs_gpu imagenet.py: Ran at 2025/02/21, 20:10:12
+Running on 1 epoch(s) and 1000 images
+GPU Training Time: 66.61 seconds
+GPU Training Time: 9.15 seconds
+Took 0h 1m 16s time to run cpu and gpu on ImageNet.

@@ -1,0 +1,2 @@
+max_testing cifar_simple_cnn.py: Ran at 2025/02/22, 15:25:41
+Using Simple CNN Model

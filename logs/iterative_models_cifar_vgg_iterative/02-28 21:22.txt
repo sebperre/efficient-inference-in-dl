@@ -1,0 +1,10 @@
+iterative_models cifar_vgg_iterative.py: Ran at 2025/02/28, 21:22:31
+Using VGG Model
+Loss on Last Iteration for Training is 1409.3659015893936
+[Timer] Training Iteration 1: Took 0h 0m 15s.
+
+Iteration 1: Testing on Test Set
+Accuracy: 0.4233
+Precision: 0.4646
+Recall: 0.4233
+F1 Score: 0.3944

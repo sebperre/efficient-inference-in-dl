@@ -1,0 +1,7 @@
+===============================================================================
+Iterative Testing: Ran at 2025/02/20, 21:54:18
+Running on VGG Architecture and 5 epoch(s)
+
+Loss on Last Iteration for Training is 862.7071583271027
+GPU Training Time on Iteration 1: 0h 1m 18s
+Testing on Iteration 1

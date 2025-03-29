@@ -1,0 +1,458 @@
+iterative_models cifar_vgg_oracle.py: Ran at 2025/03/09, 19:44:09
+Using VGG Model
+Loss on Last Iteration for Training is 373.93602269887924
+[Timer] Training Iteration 1: Took 0h 4m 4s.
+
+Iteration 1: Testing on Test Set
+Accuracy: 0.6958
+Precision: 0.6952
+Recall: 0.6958
+F1 Score: 0.6934
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.73      0.72      0.72      1000
+           1       0.84      0.76      0.80      1000
+           2       0.64      0.49      0.56      1000
+           3       0.50      0.52      0.51      1000
+           4       0.64      0.67      0.65      1000
+           5       0.64      0.57      0.61      1000
+           6       0.75      0.79      0.77      1000
+           7       0.74      0.78      0.76      1000
+           8       0.77      0.82      0.80      1000
+           9       0.71      0.83      0.76      1000
+
+    accuracy                           0.70     10000
+   macro avg       0.70      0.70      0.69     10000
+weighted avg       0.70      0.70      0.69     10000
+
+[Timer] Testing Iteration 1: Took 0h 0m 2s.
+Loss on Last Iteration for Training is 201.15304973721504
+[Timer] Training Iteration 2: Took 0h 5m 38s.
+
+Iteration 2: Testing on Test Set
+Accuracy: 0.7347
+Precision: 0.7375
+Recall: 0.7347
+F1 Score: 0.7351
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.79      0.75      0.77      1000
+           1       0.83      0.85      0.84      1000
+           2       0.65      0.61      0.63      1000
+           3       0.53      0.54      0.54      1000
+           4       0.66      0.75      0.70      1000
+           5       0.64      0.64      0.64      1000
+           6       0.75      0.85      0.80      1000
+           7       0.83      0.76      0.79      1000
+           8       0.86      0.81      0.83      1000
+           9       0.83      0.79      0.81      1000
+
+    accuracy                           0.73     10000
+   macro avg       0.74      0.73      0.74     10000
+weighted avg       0.74      0.73      0.74     10000
+
+[Timer] Testing Iteration 2: Took 0h 0m 2s.
+Loss on Last Iteration for Training is 217.07650069892406
+[Timer] Training Iteration 3: Took 0h 6m 32s.
+
+Iteration 3: Testing on Test Set
+Accuracy: 0.7973
+Precision: 0.8000
+Recall: 0.7973
+F1 Score: 0.7972
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.78      0.86      0.82      1000
+           1       0.89      0.92      0.90      1000
+           2       0.70      0.70      0.70      1000
+           3       0.65      0.61      0.63      1000
+           4       0.75      0.79      0.77      1000
+           5       0.71      0.73      0.72      1000
+           6       0.81      0.89      0.85      1000
+           7       0.86      0.83      0.84      1000
+           8       0.95      0.78      0.86      1000
+           9       0.90      0.85      0.88      1000
+
+    accuracy                           0.80     10000
+   macro avg       0.80      0.80      0.80     10000
+weighted avg       0.80      0.80      0.80     10000
+
+[Timer] Testing Iteration 3: Took 0h 0m 2s.
+Loss on Last Iteration for Training is 212.69413720071316
+[Timer] Training Iteration 4: Took 0h 8m 52s.
+
+Iteration 4: Testing on Test Set
+Accuracy: 0.8010
+Precision: 0.8079
+Recall: 0.8010
+F1 Score: 0.8008
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.85      0.81      0.83      1000
+           1       0.92      0.90      0.91      1000
+           2       0.73      0.69      0.71      1000
+           3       0.65      0.63      0.64      1000
+           4       0.71      0.83      0.77      1000
+           5       0.82      0.66      0.73      1000
+           6       0.69      0.94      0.80      1000
+           7       0.91      0.81      0.85      1000
+           8       0.89      0.89      0.89      1000
+           9       0.90      0.87      0.88      1000
+
+    accuracy                           0.80     10000
+   macro avg       0.81      0.80      0.80     10000
+weighted avg       0.81      0.80      0.80     10000
+
+[Timer] Testing Iteration 4: Took 0h 0m 3s.
+Loss on Last Iteration for Training is 186.63422329723835
+[Timer] Training Iteration 5: Took 0h 10m 10s.
+
+Iteration 5: Testing on Test Set
+Accuracy: 0.8122
+Precision: 0.8230
+Recall: 0.8122
+F1 Score: 0.8151
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.81      0.86      0.84      1000
+           1       0.89      0.93      0.91      1000
+           2       0.78      0.73      0.75      1000
+           3       0.55      0.76      0.64      1000
+           4       0.83      0.74      0.78      1000
+           5       0.76      0.71      0.74      1000
+           6       0.90      0.82      0.86      1000
+           7       0.88      0.82      0.85      1000
+           8       0.91      0.88      0.89      1000
+           9       0.91      0.87      0.89      1000
+
+    accuracy                           0.81     10000
+   macro avg       0.82      0.81      0.82     10000
+weighted avg       0.82      0.81      0.82     10000
+
+[Timer] Testing Iteration 5: Took 0h 0m 3s.
+Overlap Table
+
+Weaker 0 and Stronger 1
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           86.88                    90.39                    
+1           85.73                    95.91                    
+2           71.99                    88.46                    
+3           73.85                    76.53                    
+4           80.16                    90.12                    
+5           77.02                    86.26                    
+6           88.13                    95.3                     
+7           92.76                    90.27                    
+8           93.82                    92.22                    
+9           94.54                    89.64                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 85.34
+% Stronger of Weaker Total: 90.11
+
+Weaker 0 and Stronger 2
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           80.47                    96.38                    
+1           80.28                    97.76                    
+2           63.58                    90.49                    
+3           68.26                    79.2                     
+4           76.33                    90.27                    
+5           72.13                    91.83                    
+6           85.04                    96.06                    
+7           88.61                    94.62                    
+8           92.47                    88.09                    
+9           90.71                    92.89                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 80.48
+% Stronger of Weaker Total: 92.22
+
+Weaker 0 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           81.98                    92.48                    
+1           81.13                    96.44                    
+2           63.99                    88.87                    
+3           64.86                    77.86                    
+4           72.4                     89.52                    
+5           74.47                    85.22                    
+6           82.64                    98.6                     
+7           88.21                    91.04                    
+8           89.08                    96.11                    
+9           89.39                    93.37                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 79.69
+% Stronger of Weaker Total: 91.74
+
+Weaker 0 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           79.14                    95.13                    
+1           79.21                    97.49                    
+2           61.71                    90.69                    
+3           60.42                    87.4                     
+4           75.17                    83.83                    
+5           70.69                    87.65                    
+6           87.64                    90.98                    
+7           86.63                    91.29                    
+8           89.41                    95.38                    
+9           89.15                    93.01                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 78.53
+% Stronger of Weaker Total: 91.66
+
+Weaker 1 and Stronger 2
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           83.84                    96.52                    
+1           89.06                    96.93                    
+2           78.24                    90.61                    
+3           72.37                    81.03                    
+4           85.57                    90.01                    
+5           80.87                    91.93                    
+6           91.11                    95.18                    
+7           87.65                    96.18                    
+8           92.35                    89.49                    
+9           87.53                    94.54                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 85.41
+% Stronger of Weaker Total: 92.69
+
+Weaker 1 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           86.17                    93.44                    
+1           90.57                    96.23                    
+2           79.15                    89.46                    
+3           69.48                    80.48                    
+4           83.17                    91.48                    
+5           82.67                    84.47                    
+6           88.29                    97.41                    
+7           87.22                    92.5                     
+8           88.06                    96.66                    
+9           86.16                    94.92                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 84.72
+% Stronger of Weaker Total: 92.36
+
+Weaker 1 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           82.39                    95.18                    
+1           88.21                    97.05                    
+2           74.66                    89.29                    
+3           62.8                     87.66                    
+4           84.7                     84.02                    
+5           78.12                    86.49                    
+6           92.41                    88.72                    
+7           86.03                    93.16                    
+8           87.81                    95.3                     
+9           85.8                     94.41                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 82.7
+% Stronger of Weaker Total: 91.43
+
+Weaker 2 and Stronger 3
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           96.54                    90.93                    
+1           97.45                    95.12                    
+2           88.78                    86.63                    
+3           77.9                     80.59                    
+4           88.26                    92.28                    
+5           91.49                    82.24                    
+6           93.08                    98.31                    
+7           94.67                    91.49                    
+8           86.49                    97.96                    
+9           94.35                    96.24                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 91.3
+% Stronger of Weaker Total: 91.72
+
+Weaker 2 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           93.16                    93.49                    
+1           95.82                    96.86                    
+2           85.26                    88.05                    
+3           72.69                    90.62                    
+4           89.8                     84.68                    
+5           87.8                     85.52                    
+6           95.84                    88.08                    
+7           93.2                     91.97                    
+8           86.45                    96.81                    
+9           92.96                    94.71                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 89.6
+% Stronger of Weaker Total: 91.27
+
+Weaker 3 and Stronger 4
+Label       % Weaker of Stronger     % Stronger of Weaker     
+--------------------------------------------------------------
+0           89.34                    95.19                    
+1           94.11                    97.45                    
+2           83.47                    88.34                    
+3           73.22                    88.24                    
+4           91.28                    82.32                    
+5           84.43                    91.49                    
+6           98.78                    85.94                    
+7           91.01                    92.93                    
+8           95.22                    94.14                    
+9           95.15                    95.04                    
+--------------------------------------------------------------
+% Weaker of Stronger Total: 89.98
+% Stronger of Weaker Total: 91.24
+
+[Timer] Testing Iteration 0: Took 0h 0m 6s.
+[Timer] Testing Iteration 1: Took 0h 0m 6s.
+[Timer] Testing Iteration 2: Took 0h 0m 7s.
+[Timer] Testing Iteration 3: Took 0h 0m 8s.
+[Timer] Testing Best Model: Took 0h 0m 10s.
+[Timer] Testing Oracle: Took 0h 0m 8s.
+Model Comparison
+
+Statistic           Best                     Combined                 Difference               
+-----------------------------------------------------------------------------------------------
+Accuracy (%)        81.22                    82.29                    -1.07                    
+Precision (%)       82.2987                  82.6822                  -0.3835                  
+Recall (%)          81.22                    82.29                    -1.07                    
+F1 (%)              81.5126                  82.3925                  -0.8799                  
+Time (s)            10.2937                  8.468                    1.8257                   
+-----------------------------------------------------------------------------------------------
+
+Best Model Class Report
+              precision    recall  f1-score   support
+
+           0       0.81      0.86      0.84      1000
+           1       0.89      0.93      0.91      1000
+           2       0.78      0.73      0.75      1000
+           3       0.55      0.76      0.64      1000
+           4       0.83      0.74      0.78      1000
+           5       0.76      0.71      0.74      1000
+           6       0.90      0.82      0.86      1000
+           7       0.88      0.82      0.85      1000
+           8       0.91      0.88      0.89      1000
+           9       0.91      0.87      0.89      1000
+
+    accuracy                           0.81     10000
+   macro avg       0.82      0.81      0.82     10000
+weighted avg       0.82      0.81      0.82     10000
+
+
+Combined Model Class Report
+              precision    recall  f1-score   support
+
+           0       0.83      0.86      0.84      1000
+           1       0.89      0.92      0.91      1000
+           2       0.76      0.73      0.74      1000
+           3       0.64      0.76      0.70      1000
+           4       0.81      0.83      0.82      1000
+           5       0.76      0.71      0.74      1000
+           6       0.83      0.85      0.84      1000
+           7       0.89      0.83      0.86      1000
+           8       0.94      0.89      0.91      1000
+           9       0.90      0.85      0.88      1000
+
+    accuracy                           0.82     10000
+   macro avg       0.83      0.82      0.82     10000
+weighted avg       0.83      0.82      0.82     10000
+
+Statistic           Model 1                  Model 2                  Model 3                  Model 4                  
+------------------------------------------------------------------------------------------------------------------------
+Accuracy (%)        69.58                    73.47                    79.73                    80.1                     
+Precision (%)       69.5215                  73.7451                  80.0043                  80.7903                  
+Recall (%)          69.58                    73.47                    79.73                    80.1                     
+F1 Score (%)        69.3373                  73.5054                  79.719                   80.0789                  
+Time (s)            6.107                    6.7554                   7.1419                   8.3303                   
+------------------------------------------------------------------------------------------------------------------------
+
+Model 1 Class Report
+              precision    recall  f1-score   support
+
+           0       0.73      0.72      0.72      1000
+           1       0.84      0.76      0.80      1000
+           2       0.64      0.49      0.56      1000
+           3       0.50      0.52      0.51      1000
+           4       0.64      0.67      0.65      1000
+           5       0.64      0.57      0.61      1000
+           6       0.75      0.79      0.77      1000
+           7       0.74      0.78      0.76      1000
+           8       0.77      0.82      0.80      1000
+           9       0.71      0.83      0.76      1000
+
+    accuracy                           0.70     10000
+   macro avg       0.70      0.70      0.69     10000
+weighted avg       0.70      0.70      0.69     10000
+
+
+Model 2 Class Report
+              precision    recall  f1-score   support
+
+           0       0.79      0.75      0.77      1000
+           1       0.83      0.85      0.84      1000
+           2       0.65      0.61      0.63      1000
+           3       0.53      0.54      0.54      1000
+           4       0.66      0.75      0.70      1000
+           5       0.64      0.64      0.64      1000
+           6       0.75      0.85      0.80      1000
+           7       0.83      0.76      0.79      1000
+           8       0.86      0.81      0.83      1000
+           9       0.83      0.79      0.81      1000
+
+    accuracy                           0.73     10000
+   macro avg       0.74      0.73      0.74     10000
+weighted avg       0.74      0.73      0.74     10000
+
+
+Model 3 Class Report
+              precision    recall  f1-score   support
+
+           0       0.78      0.86      0.82      1000
+           1       0.89      0.92      0.90      1000
+           2       0.70      0.70      0.70      1000
+           3       0.65      0.61      0.63      1000
+           4       0.75      0.79      0.77      1000
+           5       0.71      0.73      0.72      1000
+           6       0.81      0.89      0.85      1000
+           7       0.86      0.83      0.84      1000
+           8       0.95      0.78      0.86      1000
+           9       0.90      0.85      0.88      1000
+
+    accuracy                           0.80     10000
+   macro avg       0.80      0.80      0.80     10000
+weighted avg       0.80      0.80      0.80     10000
+
+
+Model 4 Class Report
+              precision    recall  f1-score   support
+
+           0       0.85      0.81      0.83      1000
+           1       0.92      0.90      0.91      1000
+           2       0.73      0.69      0.71      1000
+           3       0.65      0.63      0.64      1000
+           4       0.71      0.83      0.77      1000
+           5       0.82      0.66      0.73      1000
+           6       0.69      0.94      0.80      1000
+           7       0.91      0.81      0.85      1000
+           8       0.89      0.89      0.89      1000
+           9       0.90      0.87      0.88      1000
+
+    accuracy                           0.80     10000
+   macro avg       0.81      0.80      0.80     10000
+weighted avg       0.81      0.80      0.80     10000
+
+
