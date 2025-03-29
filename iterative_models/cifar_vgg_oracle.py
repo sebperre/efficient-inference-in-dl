@@ -420,6 +420,6 @@ if __name__ == "__main__":
     num_epochs = args.epochs
     acc_sac = args.acc_sac
     train_loader, oracle_train_loader, test_loader = setup()
-    f, PATH = write_file("iterative_models")
+    f, PATH = write_file("iterative_models", "CIFAR-10", "Mini-VGGs", num_epochs, None, acc_sac)
     f.write("Using VGG Model\n")
     execute()

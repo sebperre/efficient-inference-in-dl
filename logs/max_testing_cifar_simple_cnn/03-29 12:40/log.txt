@@ -1,0 +1,34 @@
+===========FILE STAMP=============
+max_testing cifar_simple_cnn.py
+Time Started: 2025/03/29, 12:40:16
+Dataset: CIFAR-10
+Model: Simple CNN
+Epochs: 10
+==================================
+
+Using Simple CNN Model
+[Timer] Training: Took 0h 2m 7s.
+Accuracy: 0.7156
+Precision: 0.7163
+Recall: 0.7156
+F1 Score: 0.7142
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.71      0.80      0.75      1000
+           1       0.86      0.80      0.83      1000
+           2       0.66      0.57      0.61      1000
+           3       0.53      0.56      0.54      1000
+           4       0.71      0.61      0.66      1000
+           5       0.62      0.63      0.63      1000
+           6       0.78      0.78      0.78      1000
+           7       0.75      0.78      0.77      1000
+           8       0.74      0.88      0.80      1000
+           9       0.80      0.77      0.78      1000
+
+    accuracy                           0.72     10000
+   macro avg       0.72      0.72      0.71     10000
+weighted avg       0.72      0.72      0.71     10000
+
+[Timer] Testing: Took 0h 0m 2s.

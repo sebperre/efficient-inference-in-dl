@@ -34,7 +34,7 @@ def timer(func):
 
     return wrapper
 
-def write_file(folder_name):
+def write_file(folder_name, dataset, model, epochs, subset_size = None, acc_sac = None, batch_size = None, model_classifier_epochs = None):
     """
     Creates the log directories if they don't exist.
     """
@@ -46,8 +46,8 @@ def write_file(folder_name):
     path = f"{LOG_PATH}/{folder_name}_{os.path.basename(sys.argv[0])[:-3]}/{sub_folder_name}"
     os.makedirs(path, exist_ok=True)
     f = open(f"{path}/log.txt", "w")
-    f.write(f"{folder_name} {os.path.basename(sys.argv[0])}: Ran at {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
     FILE = f
+    stamp_file(folder_name, dataset, model, epochs, subset_size, acc_sac, batch_size, model_classifier_epochs)
     return f, path
 
 def print_write(text):
@@ -86,6 +86,23 @@ def get_args(epoch: bool = False,
         parser.add_argument("--model_classifier_epochs", type=int, default=model_classifier_epoch_default, help="Number of epochs for training the model classifier (default: 15)")
 
     return parser.parse_args()
+
+def stamp_file(folder_name, dataset, model, epochs, subset_size, acc_sac, batch_size, model_classifier_epochs):
+    FILE.write("===========FILE STAMP=============\n")
+    FILE.write(f"{folder_name} {os.path.basename(sys.argv[0])}\n")
+    FILE.write(f"Time Started: {datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")}\n")
+    FILE.write(f"Dataset: {dataset}\n")
+    FILE.write(f"Model: {model}\n")
+    FILE.write(f"Epochs: {epochs}\n")
+    if subset_size is not None:
+        FILE.write(f"Subset Size: {subset_size}\n")
+    if acc_sac is not None:
+        FILE.write(f"Accuracy Sacrifice: {acc_sac}\n")
+    if batch_size is not None:
+        FILE.write(f"Batch Size: {batch_size}")
+    if model_classifier_epochs is not None:
+        FILE.write(f"Model Classifier Epochs: {model_classifier_epochs}\n")
+    FILE.write("==================================\n\n")
 
 if __name__ == "__main__":
     print("This is a utils file and shouldn't be run directly.")

@@ -219,6 +219,6 @@ if __name__ == "__main__":
     args = get_args(epoch=True)
     num_epochs = args.epochs
     train_loader, test_loader = setup()
-    f, _ = write_file("iterative_models")
+    f, _ = write_file("iterative_models", "CIFAR-10", "Mini-VGGs", num_epochs)
     f.write("Using VGG Model\n")
     execute()

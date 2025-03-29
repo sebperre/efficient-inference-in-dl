@@ -1,0 +1,13 @@
+===========FILE STAMP=============
+cpu_vs_gpu imagenet.py
+Time Started: 2025/03/29, 12:21:07
+Dataset: ImageNet
+Model: Simple ResNet
+Epochs: 5
+Subset Size: 1000
+==================================
+
+Running on 5 epoch(s) and 1000 images
+GPU Training Time: 330.69 seconds
+GPU Training Time: 44.45 seconds
+[Timer] CPU and GPU on ImageNet with a ResNet model: Took 0h 6m 15s.

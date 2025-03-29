@@ -1,0 +1,8 @@
+===========FILE STAMP=============
+max_testing vgg_pretrained.py
+Time Started: 2025/03/29, 15:27:45
+Dataset: CIFAR-10
+Model: Pretrained VGG-11
+Epochs: 50
+==================================
+
