@@ -1,0 +1,4 @@
+Ran at 2025/01/16, 05:35:53
+Running on 1 epoch(s) and 1000 images
+CPU Training Time: 60.12 seconds
+GPU Training Time: 8.57 seconds
