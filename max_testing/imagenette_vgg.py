@@ -206,9 +206,8 @@ from file_utils import write_file, print_write, get_args, timer
 from subset_data import get_subset
 from visualizations import plot_loss_per_epoch
 
-PATH = None  # global for saving plots
+PATH = None
 
-# Custom VGG16 with BatchNorm for ImageNette (10 classes)
 class VGG(nn.Module):
     def __init__(self, num_classes=10):
         super(VGG, self).__init__()

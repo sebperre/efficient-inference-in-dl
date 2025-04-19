@@ -129,7 +129,7 @@ sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/u
 from file_utils import write_file, print_write, get_args, timer
 from visualizations import plot_loss_per_epoch
 
-PATH = None  # for saving plots
+PATH = None
 
 @timer
 def train_model(model, train_loader, criterion, optimizer, device, num_epochs, description="Training"):
@@ -233,7 +233,7 @@ def execute():
 
 if __name__ == "__main__":
     train_data_percentage = 0.3
-    architecture = 11  # Change to 13, 16, or 19 as needed
+    architecture = 11
     args = get_args(epoch=True)
     num_epochs = args.epochs
     train_loader, test_loader = setup()

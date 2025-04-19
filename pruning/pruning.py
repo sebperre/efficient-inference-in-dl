@@ -159,7 +159,7 @@ def train_model(model, train_loader, val_loader, optimizer, epochs, model_name):
                 correct += (preds == labels).sum().item()
                 total += labels.size(0)
         acc = 100.0 * correct / total
-        # Save best model (optional)
+
         if acc > best_acc:
             best_acc = acc
         print(f"{model_name} Epoch {epoch}: Loss = {epoch_loss:.4f}, Val Accuracy = {acc:.2f}%")
@@ -293,10 +293,9 @@ plt.title("Accuracy vs Pruning Level")
 plt.xticks([0,20,50,80])
 plt.legend()
 plt.grid(True)
-plt.savefig("accuracy_vs_pruning.png")  # Save the plot
-plt.close()  # Close the figure
+plt.savefig("accuracy_vs_pruning.png")
+plt.close()
 
-# Throughput Plot
 plt.figure(figsize=(8,5))
 for dataset in ["CIFAR-10", "ImageNette", "ImageWoof"]:
     thr_vals = [pruning_results[dataset][str(s)]["throughput"] if str(s) in pruning_results[dataset] 

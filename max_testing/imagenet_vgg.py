@@ -12,9 +12,8 @@ from file_utils import write_file, print_write, get_args, timer
 from subset_data import get_subset
 from visualizations import plot_loss_per_epoch
 
-PATH = None  # Global for saving loss plot
+PATH = None
 
-# VGG with BatchNorm
 class VGG(nn.Module):
     def __init__(self, num_classes=1000):
         super(VGG, self).__init__()

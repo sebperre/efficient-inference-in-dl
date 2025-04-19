@@ -126,7 +126,7 @@ from file_utils import write_file, print_write, get_args, timer
 from subset_data import get_subset
 from visualizations import plot_loss_per_epoch
 
-PATH = None  # Global for saving plots later
+PATH = None
 
 class SimpleResNet(nn.Module):
     def __init__(self):

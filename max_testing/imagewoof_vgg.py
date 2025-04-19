@@ -205,7 +205,7 @@ from file_utils import write_file, print_write, get_args, timer
 from subset_data import get_subset
 from visualizations import plot_loss_per_epoch
 
-PATH = None  # global for plot saving
+PATH = None
 
 class VGG(nn.Module):
     def __init__(self, num_classes=10):
