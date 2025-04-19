@@ -1,2 +1,5 @@
 data
 utils/__pycache__
+CIFAR-10_model.pt
+ImageNette_model.pt
+ImageWoof_model.pt
