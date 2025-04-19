@@ -10,115 +10,70 @@ sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/u
 
 from file_utils import write_file, print_write, get_args, timer
 from subset_data import get_subset
+from visualizations import plot_loss_per_epoch
 
-# Followed Geeksforgeeks description: https://www.geeksforgeeks.org/vgg-net-architecture-explained/
+PATH = None  # Global for saving loss plot
 
-# Batch Normalization for ImageNet is necessary
+# VGG with BatchNorm
 class VGG(nn.Module):
-    def __init__(self, num_classes = 1000):
+    def __init__(self, num_classes=1000):
         super(VGG, self).__init__()
         self.features = nn.Sequential(
             # Block 1
-            nn.Conv2d(3, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(64, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
+            nn.Conv2d(3, 64, kernel_size=3, padding=1), nn.BatchNorm2d(64), nn.ReLU(inplace=True),
+            nn.Conv2d(64, 64, kernel_size=3, padding=1), nn.BatchNorm2d(64), nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
 
             # Block 2
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(128, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(inplace=True),
+            nn.Conv2d(64, 128, kernel_size=3, padding=1), nn.BatchNorm2d(128), nn.ReLU(inplace=True),
+            nn.Conv2d(128, 128, kernel_size=3, padding=1), nn.BatchNorm2d(128), nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
 
             # Block 3
-            nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(inplace=True),
+            nn.Conv2d(128, 256, kernel_size=3, padding=1), nn.BatchNorm2d(256), nn.ReLU(inplace=True),
+            nn.Conv2d(256, 256, kernel_size=3, padding=1), nn.BatchNorm2d(256), nn.ReLU(inplace=True),
+            nn.Conv2d(256, 256, kernel_size=3, padding=1), nn.BatchNorm2d(256), nn.ReLU(inplace=True),
+            nn.Conv2d(256, 256, kernel_size=3, padding=1), nn.BatchNorm2d(256), nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
 
             # Block 4
-            nn.Conv2d(256, 512, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(inplace=True),
+            nn.Conv2d(256, 512, kernel_size=3, padding=1), nn.BatchNorm2d(512), nn.ReLU(inplace=True),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1), nn.BatchNorm2d(512), nn.ReLU(inplace=True),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1), nn.BatchNorm2d(512), nn.ReLU(inplace=True),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1), nn.BatchNorm2d(512), nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
 
             # Block 5
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(inplace=True),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1), nn.BatchNorm2d(512), nn.ReLU(inplace=True),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1), nn.BatchNorm2d(512), nn.ReLU(inplace=True),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1), nn.BatchNorm2d(512), nn.ReLU(inplace=True),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1), nn.BatchNorm2d(512), nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2)
         )
 
         self.classifier = nn.Sequential(
-            nn.Linear(25088, 4096),
-            nn.ReLU(inplace=True),
-            nn.Dropout(),
-            nn.Linear(4096, 4096),
-            nn.ReLU(inplace=True),
-            nn.Dropout(),
-            nn.Linear(4096, num_classes),
+            nn.Linear(25088, 4096), nn.ReLU(inplace=True), nn.Dropout(),
+            nn.Linear(4096, 4096), nn.ReLU(inplace=True), nn.Dropout(),
+            nn.Linear(4096, num_classes)
         )
 
-        # Initial Weights Matter a lot, took this from https://github.com/chengyangfu/pytorch-vgg-cifar10
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                # VGG Paper talks about this except with mean 0 and variance 10^-2
-                # VGG Paper of mean 0 and variance 10^-2 gives vanishing gradients
-
-                # This is Kaiming initialization
-                # n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                # m.weight.data.normal_(0, math.sqrt(2. / n))
-                # m.bias.data.zero_()
-
-                # This variance works ImageNet, we seem to get exploding gradients with Kaiming initialization
-                # Follow paper with variance 0.01
                 m.weight.data.normal_(0, 0.01)
                 m.bias.data.zero_()
 
     def forward(self, x):
         x = self.features(x)
         x = x.view(x.size(0), -1)
-        x = self.classifier(x)
-        return x
+        return self.classifier(x)
 
 @timer
-def train_model(device, num_epochs):
+def train_model(device, num_epochs, description="Training"):
     model = VGG().to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.05, momentum=0.1, weight_decay=0.0005)
+
+    epoch_losses = []
 
     for epoch in range(num_epochs):
         model.train()
@@ -134,15 +89,16 @@ def train_model(device, num_epochs):
 
             running_loss += loss.item()
 
-        print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
+        avg_loss = running_loss / len(train_loader)
+        epoch_losses.append(avg_loss)
+        print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {avg_loss:.4f}")
 
-    return model
+    return model, epoch_losses
 
 @timer
-def test_model(model, device):
+def test_model(model, device, description="Testing"):
     model.eval()
-    all_preds = []
-    all_labels = []
+    all_preds, all_labels = [], []
 
     with torch.no_grad():
         for inputs, labels in test_loader:
@@ -194,8 +150,9 @@ def execute():
     if torch.cuda.is_available():
         print("Training on GPU...")
         gpu_device = torch.device("cuda")
-        model = train_model(gpu_device, num_epochs, description="Training")
+        model, train_losses = train_model(gpu_device, num_epochs, description="Training")
         test_model(model, gpu_device, description="Testing")
+        plot_loss_per_epoch(num_epochs, train_losses, "Training Loss Per Epoch (ImageNet Mini VGG-16)", f"{PATH}/loss_per_epoch")
     else:
         print("GPU not available.")
 
@@ -204,6 +161,6 @@ if __name__ == "__main__":
     num_epochs = args.epochs
     subset_size = args.subset
     train_loader, test_loader = setup()
-    f, _ = write_file("max_testing", "ImageNet", "VGG-16", num_epochs, subset_size)
+    f, PATH = write_file("max_testing", "ImageNet", "VGG-16", num_epochs, subset_size)
     f.write("Using VGG Model\n")
     execute()
