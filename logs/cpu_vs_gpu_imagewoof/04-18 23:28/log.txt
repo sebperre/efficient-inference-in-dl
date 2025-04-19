@@ -1,0 +1,13 @@
+===========FILE STAMP=============
+cpu_vs_gpu imagewoof.py
+Time Started: 2025/04/18, 23:28:11
+Dataset: ImageWoof
+Model: Simple ResNet
+Epochs: 5
+Subset Size: 1000
+==================================
+
+Running on 5 epoch(s) and 1000 images
+CPU Training Time: 287.09 seconds
+GPU Training Time: 35.65 seconds
+[Timer] CPU and GPU on ImageWoof with a ResNet model: Took 0h 5m 23s.

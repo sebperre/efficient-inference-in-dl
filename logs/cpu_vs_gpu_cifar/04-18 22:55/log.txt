@@ -1,0 +1,12 @@
+===========FILE STAMP=============
+cpu_vs_gpu cifar.py
+Time Started: 2025/04/18, 22:55:26
+Dataset: CIFAR-10
+Model: Simple CNN Model
+Epochs: 5
+==================================
+
+Running on 5 epoch(s)
+CPU Training Time: 176.00 seconds
+GPU Training Time: 61.78 seconds
+[Timer] CPU and GPU on CIFAR with a Simple CNN model: Took 0h 3m 58s.

@@ -39,7 +39,8 @@ def write_file(folder_name, dataset, model, epochs, subset_size = None, acc_sac 
     Creates the log directories if they don't exist.
     """
     global FILE
-    LOG_PATH = "/home/sebperre/programming-projects/efficient-inference-in-dl/logs"
+    # LOG_PATH = "/home/sebperre/programming-projects/efficient-inference-in-dl/logs"
+    LOG_PATH = "/home/sebastien/programming-projects/efficient-inference-in-dl/logs"
     sub_folder_name = datetime.datetime.now().strftime("%m-%d %H:%M")
     os.makedirs(LOG_PATH, exist_ok=True)
     os.makedirs(f"{LOG_PATH}/{folder_name}_{os.path.basename(sys.argv[0])[:-3]}", exist_ok=True)

@@ -1,0 +1,9 @@
+===========FILE STAMP=============
+cpu_vs_gpu cifar.py
+Time Started: 2025/04/18, 22:45:02
+Dataset: CIFAR-10
+Model: Simple CNN Model
+Epochs: 20
+==================================
+
+Running on 20 epoch(s)
