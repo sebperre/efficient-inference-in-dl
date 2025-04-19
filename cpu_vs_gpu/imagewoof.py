@@ -6,7 +6,7 @@ import time
 import sys
 import os
 
-sys.path.append("/home/sebastien/programming-projects/efficient-inference-in-dl/utils")
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 from file_utils import write_file, print_write, get_args, timer
 from subset_data import get_subset
 
