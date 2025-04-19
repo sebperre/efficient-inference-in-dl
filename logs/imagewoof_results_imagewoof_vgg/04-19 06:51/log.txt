@@ -1,0 +1,35 @@
+===========FILE STAMP=============
+imagewoof_results imagewoof_vgg.py
+Time Started: 2025/04/19, 06:51:16
+Dataset: ImageWoof
+Model: VGG-16
+Epochs: 20
+Subset Size: 3000
+==================================
+
+Using VGG Model on ImageWoof
+[Timer] Training: Took 0h 34m 58s.
+Accuracy: 0.2130
+Precision: 0.1926
+Recall: 0.2130
+F1 Score: 0.1504
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.28      0.15      0.20       322
+           1       0.21      0.66      0.32       313
+           2       0.21      0.12      0.15       308
+           3       0.16      0.12      0.14       180
+           4       0.23      0.10      0.14       296
+           5       0.18      0.10      0.13       322
+           6       0.00      0.00      0.00       325
+           7       0.22      0.80      0.35       308
+           8       0.29      0.03      0.05       317
+           9       0.14      0.03      0.04       309
+
+    accuracy                           0.21      3000
+   macro avg       0.19      0.21      0.15      3000
+weighted avg       0.19      0.21      0.15      3000
+
+[Timer] Testing: Took 0h 0m 44s.

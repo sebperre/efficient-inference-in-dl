@@ -1,0 +1,10 @@
+===========FILE STAMP=============
+max_testing imagenet_vgg.py
+Time Started: 2025/04/19, 05:53:02
+Dataset: ImageNet
+Model: VGG-16
+Epochs: 20
+Subset Size: 3000
+==================================
+
+Using VGG Model

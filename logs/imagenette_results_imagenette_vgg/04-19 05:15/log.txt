@@ -1,0 +1,35 @@
+===========FILE STAMP=============
+imagenette_results imagenette_vgg.py
+Time Started: 2025/04/19, 05:15:30
+Dataset: ImageNette
+Model: VGG-16
+Epochs: 20
+Subset Size: 3000
+==================================
+
+Using VGG Model on ImageNette
+[Timer] Training: Took 0h 35m 19s.
+Accuracy: 0.3767
+Precision: 0.4124
+Recall: 0.3767
+F1 Score: 0.3551
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.39      0.39      0.39       311
+           1       0.38      0.20      0.26       298
+           2       0.36      0.68      0.47       273
+           3       0.36      0.09      0.15       291
+           4       0.45      0.33      0.38       308
+           5       0.24      0.61      0.34       312
+           6       0.38      0.41      0.39       315
+           7       0.52      0.11      0.18       301
+           8       0.40      0.29      0.33       297
+           9       0.65      0.69      0.67       294
+
+    accuracy                           0.38      3000
+   macro avg       0.41      0.38      0.36      3000
+weighted avg       0.41      0.38      0.36      3000
+
+[Timer] Testing: Took 0h 0m 45s.

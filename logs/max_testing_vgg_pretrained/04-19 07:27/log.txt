@@ -1,0 +1,35 @@
+===========FILE STAMP=============
+max_testing vgg_pretrained.py
+Time Started: 2025/04/19, 07:27:04
+Dataset: CIFAR-10
+Model: Pretrained VGG-11
+Epochs: 20
+==================================
+
+Using Pretrained VGG-11 on CIFAR-10
+[Timer] Training: Took 0h 30m 1s.
+Accuracy: 0.8254
+Precision: 0.8349
+Recall: 0.8254
+F1 Score: 0.8271
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0       0.93      0.77      0.84      1000
+           1       0.81      0.96      0.88      1000
+           2       0.78      0.78      0.78      1000
+           3       0.62      0.75      0.68      1000
+           4       0.76      0.86      0.81      1000
+           5       0.79      0.74      0.76      1000
+           6       0.90      0.83      0.87      1000
+           7       0.93      0.80      0.86      1000
+           8       0.92      0.88      0.90      1000
+           9       0.91      0.89      0.90      1000
+
+    accuracy                           0.83     10000
+   macro avg       0.83      0.83      0.83     10000
+weighted avg       0.83      0.83      0.83     10000
+
+[Timer] Testing: Took 0h 0m 49s.
