@@ -2,11 +2,15 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-import sys
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
-sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
+import matplotlib.pyplot as plt
+import sys
 
+sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
 from file_utils import write_file, get_args, timer, print_write
+from visualizations import plot_loss_per_epoch
+
+PATH = None
 
 class SimpleCNN(nn.Module):
     def __init__(self):
@@ -31,6 +35,8 @@ def train_model(device, num_epochs):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
+    epoch_losses = []
+
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -45,9 +51,11 @@ def train_model(device, num_epochs):
 
             running_loss += loss.item()
 
-        print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}")
+        avg_loss = running_loss / len(train_loader)
+        epoch_losses.append(avg_loss)
+        print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {avg_loss:.4f}")
 
-    return model
+    return model, epoch_losses
 
 @timer
 def test_model(model, device):
@@ -94,9 +102,10 @@ def execute():
     if torch.cuda.is_available():
         print("Training on GPU...")
         gpu_device = torch.device("cuda")
-        model = train_model(gpu_device, num_epochs, description="Training")
+        model, train_losses = train_model(gpu_device, num_epochs, description="Training")
         print("\nTesting on Test Set")
         test_model(model, gpu_device, description="Testing")
+        plot_loss_per_epoch(num_epochs, train_losses, "Training Loss Per Epoch (CIFAR-10 Simple CNN)", f"{PATH}/loss_per_epoch")
     else:
         print("GPU not available.")
 
@@ -104,6 +113,6 @@ if __name__ == "__main__":
     args = get_args(epoch=True)
     num_epochs = args.epochs
     train_loader, test_loader = setup()
-    f, _ = write_file("max_testing", "CIFAR-10", "Simple CNN", num_epochs)
+    f, PATH = write_file("max_testing", "CIFAR-10", "Simple CNN", num_epochs)
     f.write("Using Simple CNN Model\n")
     execute()
