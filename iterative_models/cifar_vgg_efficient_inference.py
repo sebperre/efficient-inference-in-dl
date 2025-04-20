@@ -5,6 +5,7 @@ from torchvision import datasets, transforms
 import torchvision.models as models
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import numpy as np
+import torch.nn.functional as F
 import math
 import sys
 import time
@@ -63,7 +64,22 @@ class VGG(nn.Module):
         x = self.classifier(x)
         return x
     
-# class ImageToModelClassifier(nn.module):
+class ImageToModelClassifier(nn.Module):
+    def __init__(self, num_models=5):
+        super(ImageToModelClassifier, self).__init__()
+        self.conv1 = nn.Conv2d(3, 16, kernel_size=3, padding=1)
+        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, padding=1)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.fc1 = nn.Linear(32 * 16 * 16, 64)
+        self.fc2 = nn.Linear(64, num_models)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        x = F.relu(self.conv2(x))
+        x = self.pool(x)
+        x = x.view(x.size(0), -1)
+        x = F.relu(self.fc1(x))
+        return self.fc2(x)
     
 
 @timer
@@ -274,8 +290,7 @@ def setup():
 
 @timer
 def train_model_classifier(device, num_epochs, model_association):
-    model = models.mobilenet_v3_small(pretrained=True)
-    model.classifier[3] = nn.Linear(in_features=1024, out_features=5)
+    model = ImageToModelClassifier()
     model = model.to(device)
 
     criterion = nn.CrossEntropyLoss()

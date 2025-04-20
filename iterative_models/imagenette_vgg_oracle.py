@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
+from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, random_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
@@ -10,7 +10,7 @@ import math
 import sys
 import time
 
-sys.path.append("/home/sebperre/programming-projects/efficient-inference-in-dl/utils")
+sys.path.append("/home/sebastien/programming-projects/efficient-inference-in-dl/utils")
 from file_utils import write_file, print_write, get_args, timer
 from visualizations import grouped_bar_chart, plot_time, plot_heat_map
 
@@ -308,7 +308,6 @@ def compare_models(combined_all_labels, combined_all_preds, combined_time, best_
     print_write(header)
     print_write("-" * (col_width1 + col_width2 * num_models))
 
-    # Print metrics
     print_write(f"{'Accuracy (%)':<{col_width1}}" + "".join(f"{acc:<{col_width2}}" for acc in accuracies))
     print_write(f"{'Precision (%)':<{col_width1}}" + "".join(f"{prec:<{col_width2}}" for prec in precisions))
     print_write(f"{'Recall (%)':<{col_width1}}" + "".join(f"{rec:<{col_width2}}" for rec in recalls))
@@ -318,22 +317,20 @@ def compare_models(combined_all_labels, combined_all_preds, combined_time, best_
     print_write("-" * (col_width1 + col_width2 * num_models))
     print_write("")
 
-    # Print classification reports for each model
     for i, class_report in enumerate(class_reports):
         print_write(f"Model {i+1} Class Report")
         print_write(class_report)
         print_write("")
 
 def setup():
-    # point to your local ImageNette train/val dirs instead of CIFAR‑10
     full_train = ImageFolder(root="../imagenette/train", transform=transform)
-    # 80/20 split for “oracle” subset
+
     train_size = int(0.8 * len(full_train))
     oracle_size = len(full_train) - train_size
     train_dataset, oracle_train_dataset = random_split(full_train, [train_size, oracle_size])
 
     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-    oracle_train_loader = DataLoader(oracle_train_dataset, batch_size=64, shuffle=False)
+    oracle_train_loader = DataLoader(oracle_train_dataset, batch_size=16, shuffle=False)
 
     test_dataset = ImageFolder(root="../imagenette/val", transform=transform)
     test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
@@ -416,7 +413,7 @@ if __name__ == "__main__":
     correct_labels = None
 
     transform = transforms.Compose([
-        transforms.Resize((160,160)),       # if you want to resize
+        transforms.Resize((160,160)),
         transforms.ToTensor(),
         transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
     ])
@@ -425,11 +422,9 @@ if __name__ == "__main__":
     num_epochs = args.epochs
     acc_sac = args.acc_sac
 
-    # initialise loaders for ImageNette
     train_loader, oracle_train_loader, test_loader = setup()
 
-    # change the write_file dataset name too
-    f, PATH = write_file("iterative_models", "ImageNette", "Mini‑VGGs", num_epochs, None, acc_sac)
+    f, PATH = write_file("iterative_models", "ImageNette", "Mini-VGGs", num_epochs, None, acc_sac)
     f.write("Using VGG Model on ImageNette\n")
 
     execute()
