@@ -4,8 +4,6 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.quantization as quant
 import os
-from torch.ao.quantization.observer import MinMaxObserver, PerChannelMinMaxObserver
-from torch.ao.quantization.qconfig import QConfig
 import time
 
 print(torch.backends.quantized.supported_engines)
@@ -70,7 +68,7 @@ def train_model(model, train_loader, val_loader, device, epochs=5):
         val_acc = 100.0 * correct / len(val_loader.dataset)
         print(f"Epoch {epoch}: Loss = {epoch_loss:.3f}, Val Acc = {val_acc:.2f}%")
         model.train()
-    #return val_acc
+    return val_acc
 
 def initialize_model():
     model = torch.hub.load('pytorch/vision:v0.10.0', 'vgg16', pretrained=True)
@@ -90,8 +88,6 @@ model_iwoof = initialize_model()
 acc_cifar  = train_model(model_cifar, train_loader_cifar, test_loader_cifar, device, epochs=0)
 acc_inette = train_model(model_inette, train_loader_inette, test_loader_inette, device, epochs=0)
 acc_iwoof  = train_model(model_iwoof, train_loader_iwoof, test_loader_iwoof, device, epochs=0)
-#print("Final accuracy: CIFAR-10 = %.2f%%, ImageNette = %.2f%%, ImageWoof = %.2f%%" 
-#      % (acc_cifar, acc_inette, acc_iwoof))
 
 def quantize_model(model, data_loader_calib, device):
     model.eval()
@@ -117,7 +113,6 @@ def quantize_model(model, data_loader_calib, device):
                     last_linear = None
             if fuse_list:
                 quant.fuse_modules(module, fuse_list, inplace=True)
-    #model.qconfig = quant.get_default_qconfig('fbgemm')
 
     backend = "qnnpack"
     model.qconfig = torch.quantization.get_default_qconfig(backend)
@@ -127,21 +122,6 @@ def quantize_model(model, data_loader_calib, device):
     model_static_quantized = torch.quantization.convert(model_static_quantized, inplace=False)
 
     return model_static_quantized
-
-    # qconfig = QConfig(
-    #     activation=MinMaxObserver.with_args(reduce_range=True),
-    #     weight=MinMaxObserver.with_args(dtype=torch.qint8, reduce_range=True)
-    # )
-    # model.qconfig = qconfig
-
-    # quant.prepare(model, inplace=True)
-    # with torch.no_grad():
-    #     for images, labels in data_loader_calib:
-    #         images, labels = images.to(device), labels.to(device)
-    #         model(images)
-    #         break
-    # quant.convert(model, inplace=True) # RuntimeError: Unsupported qscheme: per_channel_affine
-    # return model
 
 model_cifar_quant   = quantize_model(model_cifar, test_loader_cifar, device)
 model_inette_quant  = quantize_model(model_inette, test_loader_inette, device)
