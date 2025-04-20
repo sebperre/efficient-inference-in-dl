@@ -1,0 +1,10 @@
+===========FILE STAMP=============
+iterative_models imagenette_vgg_oracle.py
+Time Started: 2025/04/20, 02:47:05
+Dataset: ImageNette
+Model: Mini‑VGGs
+Epochs: 50
+Accuracy Sacrifice: 0.1
+==================================
+
+Using VGG Model on ImageNette

@@ -332,11 +332,11 @@ def setup():
     oracle_size = len(full_train) - train_size
     train_dataset, oracle_train_dataset = random_split(full_train, [train_size, oracle_size])
 
-    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
     oracle_train_loader = DataLoader(oracle_train_dataset, batch_size=64, shuffle=False)
 
     test_dataset = ImageFolder(root="../imagenette/val", transform=transform)
-    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
     return train_loader, oracle_train_loader, test_loader
 
