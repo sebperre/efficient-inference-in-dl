@@ -32,12 +32,18 @@ def make_layers(layer_config):
     return nn.Sequential(*layers)
 
 class VGG(nn.Module):
-    def __init__(self, depth=1, num_classes = 10):
-        super(VGG, self).__init__()
+    def __init__(self, depth=1, num_classes=10):
+        super().__init__()
         self.features = make_layers(layer_configs[depth])
+
+        with torch.no_grad():
+            dummy = torch.zeros(1, 3, 160, 160)
+            feats = self.features(dummy)
+            n_flatten = feats.view(1, -1).size(1)
+
         self.classifier = nn.Sequential(
             nn.Dropout(),
-            nn.Linear(depth_connections[depth], 512),
+            nn.Linear(n_flatten, 512),
             nn.ReLU(inplace=True),
             nn.Dropout(),
             nn.Linear(512, 512),
@@ -46,26 +52,17 @@ class VGG(nn.Module):
             nn.Linear(512, num_classes),
         )
 
-        # Initial Weights Matter a lot, took this from https://github.com/chengyangfu/pytorch-vgg-cifar10
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                # VGG Paper talks about this except with mean 0 and variance 10^-2
-                # VGG Paper of mean 0 and variance 10^-2 gives vanishing gradients
-
-                # This is Kaiming initialization
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
                 m.weight.data.normal_(0, math.sqrt(2. / n))
                 m.bias.data.zero_()
 
-                # This variance works though
-                # m.weight.data.normal_(0, 0.025)
-                # m.bias.data.zero_()
-
     def forward(self, x):
         x = self.features(x)
         x = x.view(x.size(0), -1)
-        x = self.classifier(x)
-        return x
+        return self.classifier(x)
+
     
 @timer
 def train_model(device, num_epochs, iteration):
